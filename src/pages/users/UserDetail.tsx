@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchUserById, clearSelectedUser } from '../../store/usersSlice';
+import { FiArrowLeft, FiEdit2 } from 'react-icons/fi';
 import './UserDetail.scss';
 
 const UserDetail = () => {
@@ -26,8 +27,12 @@ const UserDetail = () => {
   return (
     <div className="user-detail">
       <div className="user-detail__header">
-        <button onClick={() => navigate('/')} className="user-detail__back">← Volver</button>
-        <Link to={`/edit/${selectedUser.id}`} className="user-detail__edit">Editar</Link>
+        <button onClick={() => navigate('/')} className="user-detail__back">
+          <FiArrowLeft size={18} /> Volver
+        </button>
+        <Link to={`/edit/${selectedUser.id}`} className="user-detail__edit">
+          <FiEdit2 size={18} /> Editar
+        </Link>
       </div>
       
       <div className="user-detail__card">

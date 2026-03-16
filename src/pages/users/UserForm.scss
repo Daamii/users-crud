@@ -11,6 +11,9 @@
   }
 
   &__back {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     padding: 0.5rem 1rem;
     background: #ecf0f1;
     border: none;

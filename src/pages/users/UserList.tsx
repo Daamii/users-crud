@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { FaEdit } from "react-icons/fa";
+import { FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useSearchFilter } from "../../components/SearchInput";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -79,9 +81,9 @@ const UserList = () => {
   return (
     <div className="user-list">
       <div className="user-list__header">
-        <h1 className="user-list__title">Usuarios</h1>
+        <h1 className="user-list__title">CRUD de Usuarios</h1>
         <Link to="/create" className="user-list__create-btn">
-          + Crear usuario
+          <FiPlus size={18} /> Crear usuario
         </Link>
       </div>
 
@@ -138,25 +140,34 @@ const UserList = () => {
 
           <div className="user-list__grid">
             {users.map((user) => (
-              <Link to={`/user/${user.id}`} key={user.id} className="user-card">
-                <img
-                  src={user.avatar}
-                  alt={user.firstName}
-                  className="user-card__avatar"
-                />
-                <div className="user-card__info">
-                  <h2 className="user-card__name">
-                    {user.firstName} {user.lastName}
-                  </h2>
-                  <p className="user-card__email">{user.email}</p>
-                  <p className="user-card__phone">{user.phone}</p>
-                  <span
-                    className={`user-card__role user-card__role--${user.role.toLowerCase()}`}
-                  >
-                    {user.role}
-                  </span>
-                </div>
-              </Link>
+              <div key={user.id} className="user-card">
+                <Link to={`/user/${user.id}`} className="user-card__link">
+                  <img
+                    src={user.avatar}
+                    alt={user.firstName}
+                    className="user-card__avatar"
+                  />
+                  <div className="user-card__info">
+                    <h2 className="user-card__name">
+                      {user.firstName} {user.lastName}
+                    </h2>
+                    <p className="user-card__email">{user.email}</p>
+                    <p className="user-card__phone">{user.phone}</p>
+                    <span
+                      className={`user-card__role user-card__role--${user.role.toLowerCase()}`}
+                    >
+                      {user.role}
+                    </span>
+                  </div>
+                </Link>
+                <Link
+                  to={`/user/${user.id}/edit`}
+                  className="user-card__edit"
+                  title="Editar usuario"
+                >
+                  <FaEdit size={18} />
+                </Link>
+              </div>
             ))}
           </div>
 

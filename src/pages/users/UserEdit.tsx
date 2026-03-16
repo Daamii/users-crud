@@ -6,6 +6,7 @@ import { useForm } from '../../hooks/useForm';
 import { FormInput } from '../../components/FormInput';
 import { FormSelect } from '../../components/FormSelect';
 import { AvatarSelector } from '../../components/AvatarSelector';
+import { FiArrowLeft, FiSave, FiTrash2 } from 'react-icons/fi';
 import '../../components/Form.scss';
 import './UserForm.scss';
 
@@ -86,7 +87,9 @@ const UserEdit = () => {
   return (
     <div className="user-form">
       <div className="user-form__header">
-        <button onClick={() => navigate('/')} className="user-form__back">← Volver</button>
+        <button onClick={() => navigate('/')} className="user-form__back">
+          <FiArrowLeft size={18} /> Volver
+        </button>
         <h1 className="user-form__title">Editar Usuario</h1>
       </div>
 
@@ -148,7 +151,7 @@ const UserEdit = () => {
 
         <div className="user-form__actions">
           <button type="submit" className="form-btn form-btn--primary" disabled={loading}>
-            {loading ? 'Guardando...' : 'Guardar cambios'}
+            <FiSave size={18} /> {loading ? 'Guardando...' : 'Guardar cambios'}
           </button>
         </div>
       </form>
@@ -160,7 +163,7 @@ const UserEdit = () => {
           onClick={handleDelete}
           disabled={loading}
         >
-          Eliminar usuario
+          <FiTrash2 size={18} /> Eliminar usuario
         </button>
       </div>
     </div>
