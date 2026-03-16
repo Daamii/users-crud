@@ -172,6 +172,9 @@ export const api = {
           email: data.email,
           phone: data.phone,
           role: reverseRoleMap[data.role] || "user",
+          avatar:
+            data.avatar ||
+            `https://ui-avatars.com/api/?name=${data.firstName}+${data.lastName}`,
         },
       }),
     });
@@ -200,7 +203,9 @@ export const api = {
           email: data.email,
           phone: data.phone,
           role: reverseRoleMap[data.role] || "user",
-          avatar: `https://ui-avatars.com/api/?name=${data.firstName}+${data.lastName}`,
+          avatar:
+            data.avatar ||
+            `https://ui-avatars.com/api/?name=${data.firstName}+${data.lastName}`,
         },
       }),
     });

@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchUserById, updateUser, deleteUser, clearSelectedUser } from '../../store/usersSlice';
 import { useForm } from '../../hooks/useForm';
 import { FormInput } from '../../components/FormInput';
 import { FormSelect } from '../../components/FormSelect';
+import { AvatarSelector } from '../../components/AvatarSelector';
 import '../../components/Form.scss';
 import './UserForm.scss';
 
@@ -37,6 +38,7 @@ const UserEdit = () => {
   const dispatch = useAppDispatch();
   const { selectedUser, loading, error } = useAppSelector((state) => state.users);
   const { values, errors, handleChange, validateAll, setValue } = useForm(initialValues, validationRules);
+  const [avatar, setAvatar] = useState<string>("");
 
   useEffect(() => {
     if (id) {
@@ -54,14 +56,19 @@ const UserEdit = () => {
       setValue('email', selectedUser.email);
       setValue('phone', selectedUser.phone);
       setValue('role', selectedUser.role);
+      setAvatar(selectedUser.avatar || "");
     }
   }, [selectedUser, setValue]);
+
+  const handleAvatarChange = (_file: File | null, preview: string) => {
+    setAvatar(preview);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (id && validateAll()) {
-      await dispatch(updateUser({ id, data: values }));
-      navigate(`/user/${id}`);
+      await dispatch(updateUser({ id, data: { ...values, avatar } }));
+      navigate('/');
     }
   };
 
@@ -130,6 +137,13 @@ const UserEdit = () => {
           options={ROLES}
           error={errors.role}
           required
+        />
+
+        <AvatarSelector
+          label="Avatar"
+          name="avatar"
+          value={avatar}
+          onChange={handleAvatarChange}
         />
 
         <div className="user-form__actions">

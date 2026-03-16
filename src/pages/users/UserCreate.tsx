@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store/hooks';
 import { createUser } from '../../store/usersSlice';
 import { useForm } from '../../hooks/useForm';
 import { FormInput } from '../../components/FormInput';
 import { FormSelect } from '../../components/FormSelect';
+import { AvatarSelector } from '../../components/AvatarSelector';
 import '../../components/Form.scss';
 import './UserForm.scss';
 
@@ -34,11 +36,16 @@ const UserCreate = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { values, errors, handleChange, validateAll } = useForm(initialValues, validationRules);
+  const [avatar, setAvatar] = useState<string>("");
+
+  const handleAvatarChange = (_file: File | null, preview: string) => {
+    setAvatar(preview);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateAll()) {
-      await dispatch(createUser(values));
+      await dispatch(createUser({ ...values, avatar: avatar || undefined }));
       navigate('/');
     }
   };
@@ -97,6 +104,13 @@ const UserCreate = () => {
           options={ROLES}
           error={errors.role}
           required
+        />
+
+        <AvatarSelector
+          label="Avatar"
+          name="avatar"
+          value={avatar}
+          onChange={handleAvatarChange}
         />
 
         <div className="form-buttons form-buttons--center">

@@ -15,4 +15,5 @@ export interface UserFormData {
   email: string;
   phone: string;
   role: string;
+  avatar?: string;
 }
