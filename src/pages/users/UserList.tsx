@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { fetchUsers, setFilters, setLimit, setPage } from "../../store/usersSlice";
 import { useSearchFilter } from "../../components/SearchInput";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import {
+  fetchUsers,
+  setFilters,
+  setLimit,
+  setPage,
+} from "../../store/usersSlice";
 import "./UserList.scss";
 
 const PAGE_OPTIONS = [10, 25, 50, 100];
@@ -71,8 +76,6 @@ const UserList = () => {
     return pages;
   };
 
-  if (error) return <div className="app__error">{error}</div>;
-
   return (
     <div className="user-list">
       <div className="user-list__header">
@@ -131,6 +134,8 @@ const UserList = () => {
         <div className="app__loading">Cargando usuarios...</div>
       ) : (
         <>
+          {error && <div className="user-list__error">{error}</div>}
+
           <div className="user-list__grid">
             {users.map((user) => (
               <Link to={`/user/${user.id}`} key={user.id} className="user-card">

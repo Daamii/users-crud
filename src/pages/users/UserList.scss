@@ -97,6 +97,16 @@
     font-size: 1.1rem;
   }
 
+  &__error {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #fef3f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #dc2626;
+    font-size: 0.9rem;
+  }
+
   &__pagination {
     display: flex;
     flex-wrap: wrap;
