@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f7fa;
+  color: #333;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.app {
+  &__loading,
+  &__error {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.1rem;
+  }
+
+  &__error {
+    color: #e74c3c;
+  }
+}
