@@ -1,45 +1,9 @@
-@use '../../styles/variables' as *;
+@use "../../styles/variables" as *;
 
 .user-list {
   max-width: $breakpoint-xl;
   margin: 0 auto;
   padding: $spacing-xl;
-
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: $spacing-xl;
-  }
-
-  &__header-actions {
-    display: flex;
-    align-items: center;
-    gap: $spacing-md;
-  }
-
-  &__title {
-    margin: 0;
-    font-size: $font-size-xxxl;
-    color: var(--text-color);
-  }
-
-  &__create-btn {
-    display: flex;
-    align-items: center;
-    gap: $spacing-sm;
-    padding: 0.75rem 1.5rem;
-    background: $color-success;
-    color: $color-white;
-    border-radius: $border-radius-md;
-    font-weight: 600;
-    transition: background $transition-normal;
-    text-decoration: none;
-
-    &:hover {
-      background: $color-success-dark;
-    }
-  }
 
   &__filters {
     margin-bottom: $spacing-xl;
@@ -260,7 +224,9 @@
   background: var(--surface-color);
   border-radius: $border-radius-lg;
   box-shadow: $shadow-md;
-  transition: transform $transition-normal, box-shadow $transition-normal;
+  transition:
+    transform $transition-normal,
+    box-shadow $transition-normal;
   position: relative;
 
   &:hover {
@@ -284,7 +250,9 @@
     padding: $spacing-sm;
     color: var(--text-muted);
     opacity: 0.8;
-    transition: opacity $transition-normal, color $transition-normal;
+    transition:
+      opacity $transition-normal,
+      color $transition-normal;
     text-decoration: none;
 
     &:hover {

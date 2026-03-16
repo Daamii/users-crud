@@ -5,12 +5,14 @@ interface SearchInputProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  debounceMs?: number;
 }
-
 const DEBOUNCE_MS = 300;
 
-export function SearchInput({ value, onChange, placeholder = "Buscar...", debounceMs = DEBOUNCE_MS }: SearchInputProps) {
+export function SearchInput({
+  value,
+  onChange,
+  placeholder = "Buscar...",
+}: SearchInputProps) {
   return (
     <input
       type="text"

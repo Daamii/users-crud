@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FaEdit } from "../../icons";
 import { Link } from "react-router-dom";
-import { LanguageSelector } from "../../components/LanguageSelector";
 import { useSearchFilter } from "../../components/SearchInput";
-import { ThemeToggle } from "../../components/ThemeToggle";
-import { FaEdit, FiPlus } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   fetchUsers,
@@ -83,17 +81,6 @@ const UserList = () => {
 
   return (
     <div className="user-list">
-      <div className="user-list__header">
-        <h1 className="user-list__title">{t("users.list.title")}</h1>
-        <div className="user-list__header-actions">
-          <LanguageSelector />
-          <ThemeToggle />
-          <Link to="/create" className="user-list__create-btn">
-            <FiPlus size={18} /> {t("users.list.create")}
-          </Link>
-        </div>
-      </div>
-
       <div className="user-list__filters">
         <div className="user-list__search">
           <input
@@ -185,9 +172,7 @@ const UserList = () => {
           {totalPages > 1 && (
             <div className="user-list__pagination">
               <div className="user-list__pagination-left">
-                <span className="user-list__pagination-label">
-                  {t("users.list.pagination.show")}:
-                </span>
+                <span className="user-list__pagination-label">{t("users.list.pagination.show")}:</span>
                 <select
                   className="user-list__pagination-select"
                   value={limit}
@@ -199,9 +184,7 @@ const UserList = () => {
                     </option>
                   ))}
                 </select>
-                <span className="user-list__pagination-label">
-                  {t("users.list.pagination.perPage")}
-                </span>
+                <span className="user-list__pagination-label">{t("users.list.pagination.perPage")}</span>
               </div>
 
               <div className="user-list__pagination-center">
@@ -243,9 +226,7 @@ const UserList = () => {
                   onSubmit={handlePageInputSubmit}
                   className="user-list__page-form"
                 >
-                  <span className="user-list__pagination-label">
-                    {t("users.list.pagination.goTo")}
-                  </span>
+                  <span className="user-list__pagination-label">{t("users.list.pagination.goTo")}</span>
                   <input
                     type="number"
                     min={1}
@@ -259,9 +240,7 @@ const UserList = () => {
                     {t("users.list.pagination.go")}
                   </button>
                 </form>
-                <span className="user-list__page-info">
-                  ({t("users.list.pagination.total", { count: total })})
-                </span>
+                <span className="user-list__page-info">({t("users.list.pagination.total", { count: total })})</span>
               </div>
             </div>
           )}
