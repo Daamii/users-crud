@@ -6,11 +6,28 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg-color: #{$color-background};
+  --text-color: #{$color-dark};
+  --text-muted: #{$color-gray};
+  --surface-color: #{$color-white};
+  --border-color: #{$color-light};
+}
+
+[data-theme="dark"] {
+  --bg-color: #{$color-background-dark};
+  --text-color: #{$color-text-dark};
+  --text-muted: #{$color-text-muted-dark};
+  --surface-color: #{$color-surface-dark};
+  --border-color: #2a2a4a;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: $color-background;
-  color: $color-dark;
+  background: var(--bg-color);
+  color: var(--text-color);
   min-height: 100vh;
+  transition: background-color $transition-normal, color $transition-normal;
 }
 
 a {
@@ -24,6 +41,7 @@ a {
     text-align: center;
     padding: $spacing-xl;
     font-size: $font-size-lg;
+    color: var(--text-muted);
   }
 
   &__error {

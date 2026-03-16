@@ -20,16 +20,16 @@
     align-items: center;
     gap: $spacing-sm;
     padding: $spacing-sm $spacing-md;
-    background: $color-light;
-    border: none;
+    background: var(--surface-color);
+    border: 2px solid var(--border-color);
     border-radius: $border-radius-md;
     cursor: pointer;
     font-size: $font-size-md;
-    color: $color-dark;
+    color: var(--text-color);
     transition: background $transition-normal;
 
     &:hover {
-      background: $color-light-dark;
+      background: var(--border-color);
     }
   }
 
@@ -61,9 +61,9 @@
     align-items: center;
     gap: $spacing-sm;
     padding: $spacing-sm $spacing-md;
-    background: $color-light;
+    background: var(--surface-color);
+    border: 2px solid var(--border-color);
     color: $color-danger;
-    border: none;
     border-radius: $border-radius-md;
     font-size: $font-size-md;
     cursor: pointer;
@@ -83,7 +83,7 @@
     display: flex;
     gap: $spacing-xl;
     padding: $spacing-xl;
-    background: $color-white;
+    background: var(--surface-color);
     border-radius: $border-radius-xl;
     box-shadow: $shadow-lg;
     overflow: hidden;
@@ -94,7 +94,7 @@
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid $color-light;
+    border: 4px solid var(--border-color);
     flex-shrink: 0;
   }
 
@@ -105,7 +105,7 @@
 
   &__name {
     font-size: $font-size-xxxl;
-    color: $color-dark;
+    color: var(--text-color);
     margin-bottom: $spacing-sm;
     word-wrap: break-word;
   }
@@ -127,7 +127,7 @@
   &__row {
     display: flex;
     padding: 0.75rem 0;
-    border-bottom: 1px solid $color-light;
+    border-bottom: 1px solid var(--border-color);
     flex-wrap: wrap;
     gap: 0.25rem;
   }
@@ -135,11 +135,11 @@
   &__label {
     min-width: 80px;
     font-weight: 600;
-    color: $color-gray;
+    color: var(--text-muted);
   }
 
   &__value {
-    color: $color-dark;
+    color: var(--text-color);
     word-wrap: break-word;
     overflow-wrap: break-word;
   }

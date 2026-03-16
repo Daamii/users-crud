@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaEdit, FiPlus } from "../../icons";
 import { Link } from "react-router-dom";
 import { useSearchFilter } from "../../components/SearchInput";
+import { ThemeToggle } from "../../components/ThemeToggle";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   fetchUsers,
@@ -81,9 +82,12 @@ const UserList = () => {
     <div className="user-list">
       <div className="user-list__header">
         <h1 className="user-list__title">CRUD de Usuarios</h1>
-        <Link to="/create" className="user-list__create-btn">
-          <FiPlus size={18} /> Crear usuario
-        </Link>
+        <div className="user-list__header-actions">
+          <ThemeToggle />
+          <Link to="/create" className="user-list__create-btn">
+            <FiPlus size={18} /> Crear usuario
+          </Link>
+        </div>
       </div>
 
       <div className="user-list__filters">

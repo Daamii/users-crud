@@ -1,4 +1,4 @@
-@use '../../styles/variables' as *;
+@use "../../styles/variables" as *;
 
 .user-form {
   max-width: 600px;
@@ -17,27 +17,27 @@
     align-items: center;
     gap: $spacing-sm;
     padding: $spacing-sm $spacing-md;
-    background: $color-light;
-    border: none;
+    background: var(--surface-color);
+    border: 2px solid var(--border-color);
     border-radius: $border-radius-md;
     cursor: pointer;
     font-size: $font-size-md;
-    color: $color-dark;
+    color: var(--text-color);
     transition: background $transition-normal;
 
     &:hover {
-      background: $color-light-dark;
+      background: var(--border-color);
     }
   }
 
   &__title {
     font-size: $font-size-xxl;
-    color: $color-dark;
+    color: var(--text-color);
   }
 
   &__form {
     padding: $spacing-xl;
-    background: $color-white;
+    background: var(--surface-color);
     border-radius: $border-radius-xl;
     box-shadow: $shadow-lg;
   }
