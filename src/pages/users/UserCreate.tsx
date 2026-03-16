@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store/hooks';
 import { createUser } from '../../store/usersSlice';
@@ -10,6 +11,7 @@ import '../../components/Form.scss';
 import './UserForm.scss';
 
 const UserCreate = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { values, errors, handleChange, validateAll } = useForm(
@@ -34,9 +36,9 @@ const UserCreate = () => {
     <div className="user-form">
       <div className="user-form__header">
         <button onClick={() => navigate('/')} className="user-form__back">
-          <FiArrowLeft size={18} /> Cancelar
+          <FiArrowLeft size={18} /> {t("users.form.cancel")}
         </button>
-        <h1 className="user-form__title">Crear Usuario</h1>
+        <h1 className="user-form__title">{t("users.form.create")}</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="user-form__form">
@@ -49,7 +51,7 @@ const UserCreate = () => {
         >
           <div className="form-buttons form-buttons--center">
             <button type="submit" className="form-btn form-btn--primary form-btn--full">
-              <FiSave size={18} /> Crear usuario
+              <FiSave size={18} /> {t("users.form.create")}
             </button>
           </div>
         </UserForm>

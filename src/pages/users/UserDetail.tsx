@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FiArrowLeft, FiEdit2, FiTrash2 } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -11,6 +12,7 @@ import { getUserDisplayData } from "./userConstants";
 import "./UserDetail.scss";
 
 const UserDetail = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -28,19 +30,16 @@ const UserDetail = () => {
   }, [dispatch, id]);
 
   const handleDelete = async () => {
-    if (
-      id &&
-      window.confirm("¿Estás seguro de que quieres eliminar este usuario?")
-    ) {
+    if (id && window.confirm(t("users.form.deleteConfirm"))) {
       await dispatch(deleteUser(id));
       navigate("/");
     }
   };
 
-  if (loading) return <div className="app__loading">Cargando usuario...</div>;
+  if (loading) return <div className="app__loading">{t("app.loading")}</div>;
   if (error) return <div className="app__error">{error}</div>;
   if (!selectedUser)
-    return <div className="app__error">Usuario no encontrado</div>;
+    return <div className="app__error">{t("users.detail.notFound")}</div>;
 
   const displayData = getUserDisplayData(selectedUser);
 
@@ -48,7 +47,7 @@ const UserDetail = () => {
     <div className="user-detail">
       <div className="user-detail__header">
         <button onClick={() => navigate("/")} className="user-detail__back">
-          <FiArrowLeft size={18} /> Volver
+          <FiArrowLeft size={18} /> {t("users.detail.back")}
         </button>
         <div className="user-detail__actions">
           <button
@@ -56,10 +55,10 @@ const UserDetail = () => {
             className="user-detail__delete"
             disabled={loading}
           >
-            <FiTrash2 size={18} /> Eliminar
+            <FiTrash2 size={18} /> {t("users.detail.delete")}
           </button>
           <Link to={`/user/${id}/edit`} className="user-detail__edit">
-            <FiEdit2 size={18} /> Editar
+            <FiEdit2 size={18} /> {t("users.detail.edit")}
           </Link>
         </div>
       </div>
@@ -72,25 +71,35 @@ const UserDetail = () => {
         />
         <div className="user-detail__content">
           <h1 className="user-detail__name">{displayData.name}</h1>
-          <span className="user-detail__role">{displayData.role}</span>
+          <span className="user-detail__role">
+            {t(`users.roles.${displayData.role}`)}
+          </span>
 
           <div className="user-detail__section">
             <div className="user-detail__row">
-              <span className="user-detail__label">Email:</span>
+              <span className="user-detail__label">
+                {t("users.detail.email")}:
+              </span>
               <span className="user-detail__value">{displayData.email}</span>
             </div>
             <div className="user-detail__row">
-              <span className="user-detail__label">Teléfono:</span>
+              <span className="user-detail__label">
+                {t("users.detail.phone")}:
+              </span>
               <span className="user-detail__value">{displayData.phone}</span>
             </div>
             <div className="user-detail__row">
-              <span className="user-detail__label">Creado:</span>
+              <span className="user-detail__label">
+                {t("users.detail.created")}:
+              </span>
               <span className="user-detail__value">
                 {displayData.createdAt}
               </span>
             </div>
             <div className="user-detail__row">
-              <span className="user-detail__label">ID:</span>
+              <span className="user-detail__label">
+                {t("users.detail.id")}:
+              </span>
               <span className="user-detail__value">{displayData.id}</span>
             </div>
           </div>

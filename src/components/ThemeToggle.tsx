@@ -1,17 +1,19 @@
-import { FiSun, FiMoon } from '../icons';
-import { useTheme } from '../context/ThemeContext';
-import './ThemeToggle.scss';
+import { useTranslation } from "react-i18next";
+import { useTheme } from "../context/ThemeContext";
+import { FiMoon, FiSun } from "../icons";
+import "./ThemeToggle.scss";
 
 export function ThemeToggle() {
+  const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <button 
-      onClick={toggleTheme} 
+    <button
+      onClick={toggleTheme}
       className="theme-toggle"
-      title={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
+      title={theme === "light" ? t("theme.dark") : t("theme.light")}
     >
-      {theme === 'light' ? <FiMoon size={20} /> : <FiSun size={20} />}
+      {theme === "light" ? <FiMoon size={20} /> : <FiSun size={20} />}
     </button>
   );
 }

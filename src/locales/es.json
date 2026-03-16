@@ -1,0 +1,75 @@
+{
+  "app": {
+    "title": "CRUD de Usuarios",
+    "loading": "Cargando...",
+    "error": "Error"
+  },
+  "users": {
+    "list": {
+      "title": "CRUD de Usuarios",
+      "create": "Crear usuario",
+      "search": "Buscar por nombre o email...",
+      "empty": "No se encontraron usuarios",
+      "filters": {
+        "all": "Todos",
+        "administrador": "Administrador",
+        "usuario": "Usuario",
+        "editor": "Editor",
+        "moderador": "Moderador"
+      },
+      "pagination": {
+        "show": "Mostrar",
+        "perPage": "por página",
+        "goTo": "Ir a:",
+        "go": "Ir",
+        "total": "{{count}} usuarios"
+      }
+    },
+    "detail": {
+      "back": "Volver",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "email": "Email",
+      "phone": "Teléfono",
+      "created": "Creado",
+      "id": "ID",
+      "notFound": "Usuario no encontrado"
+    },
+    "form": {
+      "create": "Crear Usuario",
+      "edit": "Editar Usuario",
+      "cancel": "Cancelar",
+      "save": "Guardar cambios",
+      "saving": "Guardando...",
+      "delete": "Eliminar usuario",
+      "deleteConfirm": "¿Estás seguro de que quieres eliminar este usuario?",
+      "fields": {
+        "firstName": "Nombre",
+        "lastName": "Apellido",
+        "email": "Email",
+        "phone": "Teléfono",
+        "role": "Rol",
+        "avatar": "Avatar"
+      },
+      "validation": {
+        "required": "Este campo es obligatorio",
+        "minLength": "Mínimo {{min}} caracteres",
+        "email": "Email inválido"
+      }
+    },
+    "roles": {
+      "Administrador": "Administrador",
+      "Usuario": "Usuario",
+      "Editor": "Editor",
+      "Moderador": "Moderador"
+    }
+  },
+  "theme": {
+    "light": "Modo claro",
+    "dark": "Modo oscuro"
+  },
+  "language": {
+    "es": "Español",
+    "en": "English"
+  }
+}

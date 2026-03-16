@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { FaEdit, FiPlus } from "../../icons";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { LanguageSelector } from "../../components/LanguageSelector";
 import { useSearchFilter } from "../../components/SearchInput";
 import { ThemeToggle } from "../../components/ThemeToggle";
+import { FaEdit, FiPlus } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   fetchUsers,
@@ -15,6 +17,7 @@ import "./UserList.scss";
 const PAGE_OPTIONS = [10, 25, 50, 100];
 
 const UserList = () => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { users, total, page, limit, totalPages, loading, error, filters } =
     useAppSelector((state) => state.users);
@@ -81,11 +84,12 @@ const UserList = () => {
   return (
     <div className="user-list">
       <div className="user-list__header">
-        <h1 className="user-list__title">CRUD de Usuarios</h1>
+        <h1 className="user-list__title">{t("users.list.title")}</h1>
         <div className="user-list__header-actions">
+          <LanguageSelector />
           <ThemeToggle />
           <Link to="/create" className="user-list__create-btn">
-            <FiPlus size={18} /> Crear usuario
+            <FiPlus size={18} /> {t("users.list.create")}
           </Link>
         </div>
       </div>
@@ -94,7 +98,7 @@ const UserList = () => {
         <div className="user-list__search">
           <input
             type="text"
-            placeholder="Buscar por nombre o email..."
+            placeholder={t("users.list.search")}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             className="user-list__search-input"
@@ -106,37 +110,37 @@ const UserList = () => {
             className={`user-list__role-btn ${filters.role === "" ? "user-list__role-btn--active" : ""}`}
             onClick={() => handleRoleChange("")}
           >
-            Todos
+            {t("users.list.filters.all")}
           </button>
           <button
             className={`user-list__role-btn ${filters.role === "Administrador" ? "user-list__role-btn--active" : ""}`}
             onClick={() => handleRoleChange("Administrador")}
           >
-            Administrador
+            {t("users.list.filters.administrador")}
           </button>
           <button
             className={`user-list__role-btn ${filters.role === "Usuario" ? "user-list__role-btn--active" : ""}`}
             onClick={() => handleRoleChange("Usuario")}
           >
-            Usuario
+            {t("users.list.filters.usuario")}
           </button>
           <button
             className={`user-list__role-btn ${filters.role === "Editor" ? "user-list__role-btn--active" : ""}`}
             onClick={() => handleRoleChange("Editor")}
           >
-            Editor
+            {t("users.list.filters.editor")}
           </button>
           <button
             className={`user-list__role-btn ${filters.role === "Moderador" ? "user-list__role-btn--active" : ""}`}
             onClick={() => handleRoleChange("Moderador")}
           >
-            Moderador
+            {t("users.list.filters.moderador")}
           </button>
         </div>
       </div>
 
       {loading ? (
-        <div className="app__loading">Cargando usuarios...</div>
+        <div className="app__loading">{t("app.loading")}</div>
       ) : (
         <>
           {error && <div className="user-list__error">{error}</div>}
@@ -159,14 +163,14 @@ const UserList = () => {
                     <span
                       className={`user-card__role user-card__role--${user.role.toLowerCase()}`}
                     >
-                      {user.role}
+                      {t(`users.roles.${user.role}`)}
                     </span>
                   </div>
                 </Link>
                 <Link
                   to={`/user/${user.id}/edit`}
                   className="user-card__edit"
-                  title="Editar usuario"
+                  title={t("users.detail.edit")}
                 >
                   <FaEdit size={18} />
                 </Link>
@@ -175,13 +179,15 @@ const UserList = () => {
           </div>
 
           {users.length === 0 && (
-            <div className="user-list__empty">No se encontraron usuarios</div>
+            <div className="user-list__empty">{t("users.list.empty")}</div>
           )}
 
           {totalPages > 1 && (
             <div className="user-list__pagination">
               <div className="user-list__pagination-left">
-                <span className="user-list__pagination-label">Mostrar:</span>
+                <span className="user-list__pagination-label">
+                  {t("users.list.pagination.show")}:
+                </span>
                 <select
                   className="user-list__pagination-select"
                   value={limit}
@@ -193,7 +199,9 @@ const UserList = () => {
                     </option>
                   ))}
                 </select>
-                <span className="user-list__pagination-label">por página</span>
+                <span className="user-list__pagination-label">
+                  {t("users.list.pagination.perPage")}
+                </span>
               </div>
 
               <div className="user-list__pagination-center">
@@ -202,7 +210,7 @@ const UserList = () => {
                   onClick={() => handlePageChange(page - 1)}
                   disabled={page === 1}
                 >
-                  Anterior
+                  {"<"}
                 </button>
 
                 {getPageNumbers().map((p, idx) =>
@@ -226,7 +234,7 @@ const UserList = () => {
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page === totalPages}
                 >
-                  Siguiente
+                  {">"}
                 </button>
               </div>
 
@@ -235,7 +243,9 @@ const UserList = () => {
                   onSubmit={handlePageInputSubmit}
                   className="user-list__page-form"
                 >
-                  <span className="user-list__pagination-label">Ir a:</span>
+                  <span className="user-list__pagination-label">
+                    {t("users.list.pagination.goTo")}
+                  </span>
                   <input
                     type="number"
                     min={1}
@@ -246,10 +256,12 @@ const UserList = () => {
                     placeholder={String(page)}
                   />
                   <button type="submit" className="user-list__page-go">
-                    Ir
+                    {t("users.list.pagination.go")}
                   </button>
                 </form>
-                <span className="user-list__page-info">({total} usuarios)</span>
+                <span className="user-list__page-info">
+                  ({t("users.list.pagination.total", { count: total })})
+                </span>
               </div>
             </div>
           )}

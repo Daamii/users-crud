@@ -1,0 +1,75 @@
+{
+  "app": {
+    "title": "Users CRUD",
+    "loading": "Loading...",
+    "error": "Error"
+  },
+  "users": {
+    "list": {
+      "title": "Users CRUD",
+      "create": "Create user",
+      "search": "Search by name or email...",
+      "empty": "No users found",
+      "filters": {
+        "all": "All",
+        "administrador": "Administrator",
+        "usuario": "User",
+        "editor": "Editor",
+        "moderador": "Moderator"
+      },
+      "pagination": {
+        "show": "Show",
+        "perPage": "per page",
+        "goTo": "Go to:",
+        "go": "Go",
+        "total": "{{count}} users"
+      }
+    },
+    "detail": {
+      "back": "Back",
+      "edit": "Edit",
+      "delete": "Delete",
+      "email": "Email",
+      "phone": "Phone",
+      "created": "Created",
+      "id": "ID",
+      "notFound": "User not found"
+    },
+    "form": {
+      "create": "Create User",
+      "edit": "Edit User",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "delete": "Delete user",
+      "deleteConfirm": "Are you sure you want to delete this user?",
+      "fields": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "role": "Role",
+        "avatar": "Avatar"
+      },
+      "validation": {
+        "required": "This field is required",
+        "minLength": "Minimum {{min}} characters",
+        "email": "Invalid email"
+      }
+    },
+    "roles": {
+      "Administrador": "Administrator",
+      "Usuario": "User",
+      "Editor": "Editor",
+      "Moderador": "Moderator"
+    }
+  },
+  "theme": {
+    "light": "Light mode",
+    "dark": "Dark mode"
+  },
+  "language": {
+    "es": "Español",
+    "en": "English"
+  }
+}

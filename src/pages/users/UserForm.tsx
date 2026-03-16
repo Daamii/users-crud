@@ -1,14 +1,17 @@
-import { ReactNode } from 'react';
-import { FormInput } from '../../components/FormInput';
-import { FormSelect } from '../../components/FormSelect';
-import { AvatarSelector } from '../../components/AvatarSelector';
-import { ROLES } from './userConstants';
-import { FormErrors } from '../../hooks/useForm';
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { AvatarSelector } from "../../components/AvatarSelector";
+import { FormInput } from "../../components/FormInput";
+import { FormSelect } from "../../components/FormSelect";
+import { FormErrors } from "../../hooks/useForm";
+import { ROLES } from "./userConstants";
 
 interface UserFormProps {
   values: Record<string, string>;
   errors: FormErrors;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void;
   avatar: string;
   onAvatarChange: (file: File | null, preview: string) => void;
   children?: ReactNode;
@@ -20,12 +23,14 @@ export function UserForm({
   handleChange,
   avatar,
   onAvatarChange,
-  children
+  children,
 }: UserFormProps) {
+  const { t } = useTranslation();
+
   return (
     <>
       <FormInput
-        label="Nombre"
+        label={t("users.form.fields.firstName")}
         name="firstName"
         value={values.firstName}
         onChange={handleChange}
@@ -34,7 +39,7 @@ export function UserForm({
       />
 
       <FormInput
-        label="Apellido"
+        label={t("users.form.fields.lastName")}
         name="lastName"
         value={values.lastName}
         onChange={handleChange}
@@ -43,7 +48,7 @@ export function UserForm({
       />
 
       <FormInput
-        label="Email"
+        label={t("users.form.fields.email")}
         name="email"
         type="email"
         value={values.email}
@@ -53,7 +58,7 @@ export function UserForm({
       />
 
       <FormInput
-        label="Teléfono"
+        label={t("users.form.fields.phone")}
         name="phone"
         type="tel"
         value={values.phone}
@@ -63,7 +68,7 @@ export function UserForm({
       />
 
       <FormSelect
-        label="Rol"
+        label={t("users.form.fields.role")}
         name="role"
         value={values.role}
         onChange={handleChange}
@@ -73,7 +78,7 @@ export function UserForm({
       />
 
       <AvatarSelector
-        label="Avatar"
+        label={t("users.form.fields.avatar")}
         name="avatar"
         value={avatar}
         onChange={onAvatarChange}
