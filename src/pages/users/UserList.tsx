@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
-import { FiPlus } from "react-icons/fi";
+import { FaEdit, FiPlus } from "../../icons";
 import { Link } from "react-router-dom";
 import { useSearchFilter } from "../../components/SearchInput";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";

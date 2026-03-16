@@ -3,40 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store/hooks';
 import { createUser } from '../../store/usersSlice';
 import { useForm } from '../../hooks/useForm';
-import { FormInput } from '../../components/FormInput';
-import { FormSelect } from '../../components/FormSelect';
-import { AvatarSelector } from '../../components/AvatarSelector';
-import { FiArrowLeft, FiSave } from 'react-icons/fi';
+import { FiArrowLeft, FiSave } from '../../icons';
+import { UserForm } from './UserForm';
+import { USER_FORM_INITIAL_VALUES, USER_FORM_VALIDATION_RULES } from './userConstants';
 import '../../components/Form.scss';
 import './UserForm.scss';
-
-const ROLES = [
-  { value: 'Administrador', label: 'Administrador' },
-  { value: 'Usuario', label: 'Usuario' },
-  { value: 'Editor', label: 'Editor' },
-  { value: 'Moderador', label: 'Moderador' }
-];
-
-const initialValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  role: ''
-};
-
-const validationRules = {
-  firstName: { required: true, minLength: 2 },
-  lastName: { required: true, minLength: 2 },
-  email: { required: true, email: true },
-  phone: { required: true, minLength: 9 },
-  role: { required: true }
-};
 
 const UserCreate = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { values, errors, handleChange, validateAll } = useForm(initialValues, validationRules);
+  const { values, errors, handleChange, validateAll } = useForm(
+    USER_FORM_INITIAL_VALUES,
+    USER_FORM_VALIDATION_RULES
+  );
   const [avatar, setAvatar] = useState<string>("");
 
   const handleAvatarChange = (_file: File | null, preview: string) => {
@@ -46,7 +25,7 @@ const UserCreate = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateAll()) {
-      await dispatch(createUser({ ...values, avatar: avatar || undefined }));
+      await dispatch(createUser({ ...values, avatar: avatar || undefined } as import('../../types/user').UserFormData));
       navigate('/');
     }
   };
@@ -61,66 +40,19 @@ const UserCreate = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="user-form__form">
-        <FormInput
-          label="Nombre"
-          name="firstName"
-          value={values.firstName}
-          onChange={handleChange}
-          error={errors.firstName}
-          required
-        />
-
-        <FormInput
-          label="Apellido"
-          name="lastName"
-          value={values.lastName}
-          onChange={handleChange}
-          error={errors.lastName}
-          required
-        />
-
-        <FormInput
-          label="Email"
-          name="email"
-          type="email"
-          value={values.email}
-          onChange={handleChange}
-          error={errors.email}
-          required
-        />
-
-        <FormInput
-          label="Teléfono"
-          name="phone"
-          type="tel"
-          value={values.phone}
-          onChange={handleChange}
-          error={errors.phone}
-          required
-        />
-
-        <FormSelect
-          label="Rol"
-          name="role"
-          value={values.role}
-          onChange={handleChange}
-          options={ROLES}
-          error={errors.role}
-          required
-        />
-
-        <AvatarSelector
-          label="Avatar"
-          name="avatar"
-          value={avatar}
-          onChange={handleAvatarChange}
-        />
-
-        <div className="form-buttons form-buttons--center">
-          <button type="submit" className="form-btn form-btn--primary form-btn--full">
-            <FiSave size={18} /> Crear usuario
-          </button>
-        </div>
+        <UserForm
+          values={values}
+          errors={errors}
+          handleChange={handleChange}
+          avatar={avatar}
+          onAvatarChange={handleAvatarChange}
+        >
+          <div className="form-buttons form-buttons--center">
+            <button type="submit" className="form-btn form-btn--primary form-btn--full">
+              <FiSave size={18} /> Crear usuario
+            </button>
+          </div>
+        </UserForm>
       </form>
     </div>
   );

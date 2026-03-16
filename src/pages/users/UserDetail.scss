@@ -49,6 +49,34 @@
     }
   }
 
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__delete {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #ecf0f1;
+    color: #e74c3c;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #fadbd8;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
   &__card {
     display: flex;
     gap: 2rem;
