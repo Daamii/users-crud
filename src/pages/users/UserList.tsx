@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useSearchFilter } from "../../components/SearchInput";
-import { FaEdit } from "../../icons";
+import { FaEdit, FiGrid, FiList } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   fetchUsers,
@@ -20,7 +20,15 @@ const UserList = () => {
   const { users, total, page, limit, totalPages, loading, error, filters } =
     useAppSelector((state) => state.users);
   const [pageInput, setPageInput] = useState("");
+  const [viewMode, setViewMode] = useState<"grid" | "table">(() => {
+    const saved = localStorage.getItem("viewMode");
+    return (saved === "grid" || saved === "table") ? saved : "grid";
+  });
   const { searchInput, setSearchInput, debouncedSearch } = useSearchFilter();
+
+  useEffect(() => {
+    localStorage.setItem("viewMode", viewMode);
+  }, [viewMode]);
 
   useEffect(() => {
     dispatch(setFilters({ search: debouncedSearch }));
@@ -82,14 +90,33 @@ const UserList = () => {
   return (
     <div className="user-list">
       <div className="user-list__filters">
-        <div className="user-list__search">
-          <input
-            type="text"
-            placeholder={t("users.list.search")}
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            className="user-list__search-input"
-          />
+        <div className="user-list__search-toggle">
+          <div className="user-list__search">
+            <input
+              type="text"
+              placeholder={t("users.list.search")}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              className="user-list__search-input"
+            />
+          </div>
+
+          <div className="user-list__view-toggle">
+            <button
+              className={`user-list__view-btn ${viewMode === "grid" ? "user-list__view-btn--active" : ""}`}
+              onClick={() => setViewMode("grid")}
+              title="Grid view"
+            >
+              <FiGrid />
+            </button>
+            <button
+              className={`user-list__view-btn ${viewMode === "table" ? "user-list__view-btn--active" : ""}`}
+              onClick={() => setViewMode("table")}
+              title="Table view"
+            >
+              <FiList />
+            </button>
+          </div>
         </div>
 
         <div className="user-list__roles">
@@ -132,44 +159,93 @@ const UserList = () => {
         <>
           {error && <div className="user-list__error">{error}</div>}
 
-          <div className="user-list__grid">
-            {users.map((user) => (
-              <div key={user.id} className="user-card">
-                <Link to={`/user/${user.id}`} className="user-card__link">
-                  <img
-                    src={user.avatar}
-                    alt={user.firstName}
-                    className="user-card__avatar"
-                  />
-                  <div className="user-card__info">
-                    <h2 className="user-card__name">
-                      {user.firstName} {user.lastName}
-                    </h2>
-                    <p className="user-card__email">{user.email}</p>
-                    <p className="user-card__phone">{user.phone}</p>
-                    <span
-                      className={`user-card__role user-card__role--${user.role.toLowerCase()}`}
-                    >
-                      {t(`users.roles.${user.role}`)}
-                    </span>
-                  </div>
-                </Link>
-                <Link
-                  to={`/user/${user.id}/edit`}
-                  className="user-card__edit"
-                  title={t("users.detail.edit")}
-                >
-                  <FaEdit size={18} />
-                </Link>
-              </div>
-            ))}
-          </div>
+          {viewMode === "grid" ? (
+            <div className="user-list__grid">
+              {users.map((user) => (
+                <div key={user.id} className="user-card">
+                  <Link to={`/user/${user.id}`} className="user-card__link">
+                    <img
+                      src={user.avatar}
+                      alt={user.firstName}
+                      className="user-card__avatar"
+                    />
+                    <div className="user-card__info">
+                      <h2 className="user-card__name">
+                        {user.firstName} {user.lastName}
+                      </h2>
+                      <p className="user-card__email">{user.email}</p>
+                      <p className="user-card__phone">{user.phone}</p>
+                      <span
+                        className={`user-card__role user-card__role--${user.role.toLowerCase()}`}
+                      >
+                        {t(`users.roles.${user.role}`)}
+                      </span>
+                    </div>
+                  </Link>
+                  <Link
+                    to={`/user/${user.id}/edit`}
+                    className="user-card__edit"
+                    title={t("users.detail.edit")}
+                  >
+                    <FaEdit size={18} />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="user-list__table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>{t("users.list.table.avatar")}</th>
+                    <th>{t("users.list.table.name")}</th>
+                    <th>{t("users.list.table.email")}</th>
+                    <th>{t("users.list.table.phone")}</th>
+                    <th>{t("users.list.table.role")}</th>
+                    <th>{t("users.list.table.actions")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user.id} onClick={() => window.location.href = `/user/${user.id}`}>
+                      <td>
+                        <img
+                          src={user.avatar}
+                          alt={user.firstName}
+                          className="user-list__table-avatar"
+                        />
+                      </td>
+                      <td>{user.firstName} {user.lastName}</td>
+                      <td>{user.email}</td>
+                      <td>{user.phone}</td>
+                      <td>
+                        <span
+                          className={`user-card__role user-card__role--${user.role.toLowerCase()}`}
+                        >
+                          {t(`users.roles.${user.role}`)}
+                        </span>
+                      </td>
+                      <td onClick={(e) => e.stopPropagation()}>
+                        <Link
+                          to={`/user/${user.id}/edit`}
+                          className="user-list__table-edit"
+                          title={t("users.detail.edit")}
+                        >
+                          <FaEdit size={16} />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
 
           {users.length === 0 && (
             <div className="user-list__empty">{t("users.list.empty")}</div>
           )}
 
-          {totalPages > 1 && (
+          {users.length > 0 && (
             <div className="user-list__pagination">
               <div className="user-list__pagination-left">
                 <span className="user-list__pagination-label">

@@ -10,7 +10,8 @@
   }
 
   &__search {
-    margin-bottom: $spacing-md;
+    flex: 1;
+    max-width: 400px;
   }
 
   &__search-input {
@@ -26,6 +27,14 @@
       outline: none;
       border-color: $color-primary;
     }
+  }
+
+  &__search-toggle {
+    display: flex;
+    gap: $spacing-md;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: $spacing-md;
   }
 
   &__roles {
@@ -64,10 +73,98 @@
     }
   }
 
+  &__view-toggle {
+    display: flex;
+    gap: $spacing-xs;
+  }
+
+  &__view-btn {
+    padding: $spacing-sm;
+    background: var(--surface-color);
+    border: 2px solid var(--border-color);
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all $transition-normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      border-color: $color-primary;
+      color: $color-primary;
+    }
+
+    &--active {
+      background: $color-primary;
+      border-color: $color-primary;
+      color: $color-white;
+    }
+  }
+
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: $spacing-lg;
+  }
+
+  &__table {
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface-color);
+      border-radius: $border-radius-md;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: $spacing-md;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background: var(--bg-color);
+      color: var(--text-muted);
+    }
+
+    td {
+      color: var(--text-color);
+    }
+
+    tr {
+      cursor: pointer;
+      transition: background $transition-normal;
+
+      &:hover td {
+        background: var(--bg-color);
+      }
+    }
+  }
+
+  &__table-avatar {
+    width: 40px;
+    height: 40px;
+    // border-radius: $border-radius-full;
+    object-fit: cover;
+  }
+
+  &__table-edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-sm;
+    color: var(--text-muted);
+    border-radius: $border-radius-sm;
+    transition: all $transition-normal;
+
+    &:hover {
+      background: var(--border-color);
+      color: $color-primary;
+    }
   }
 
   &__empty {

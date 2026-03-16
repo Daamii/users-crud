@@ -17,6 +17,14 @@
         "editor": "Editor",
         "moderador": "Moderador"
       },
+      "table": {
+        "avatar": "Avatar",
+        "name": "Nombre",
+        "email": "Email",
+        "phone": "Teléfono",
+        "role": "Rol",
+        "actions": "Acciones"
+      },
       "pagination": {
         "show": "Mostrar",
         "perPage": "por página",
