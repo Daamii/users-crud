@@ -7,7 +7,9 @@ import UserList from "./pages/users/UserList";
 
 function AppContent() {
   const location = useLocation();
-  const showCreateButton = location.pathname === "/" || location.pathname === "";
+  const showCreateButton =
+    !location.pathname.includes("/create") &&
+    !location.pathname.includes("/edit");
 
   return (
     <>
