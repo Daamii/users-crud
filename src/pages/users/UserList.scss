@@ -1,89 +1,91 @@
+@use '../../styles/variables' as *;
+
 .user-list {
-  max-width: 1200px;
+  max-width: $breakpoint-xl;
   margin: 0 auto;
-  padding: 2rem;
+  padding: $spacing-xl;
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-xl;
   }
 
   &__title {
     margin: 0;
-    font-size: 2rem;
-    color: #2c3e50;
+    font-size: $font-size-xxxl;
+    color: $color-dark;
   }
 
   &__create-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: $spacing-sm;
     padding: 0.75rem 1.5rem;
-    background: #27ae60;
-    color: white;
-    border-radius: 8px;
+    background: $color-success;
+    color: $color-white;
+    border-radius: $border-radius-md;
     font-weight: 600;
-    transition: background 0.2s;
+    transition: background $transition-normal;
     text-decoration: none;
 
     &:hover {
-      background: #219a52;
+      background: $color-success-dark;
     }
   }
 
   &__filters {
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-xl;
   }
 
   &__search {
-    margin-bottom: 1rem;
+    margin-bottom: $spacing-md;
   }
 
   &__search-input {
     width: 100%;
     padding: 0.75rem 1rem;
-    border: 2px solid #ecf0f1;
-    border-radius: 8px;
-    font-size: 1rem;
+    border: 2px solid $color-light;
+    border-radius: $border-radius-md;
+    font-size: $font-size-lg;
 
     &:focus {
       outline: none;
-      border-color: #3498db;
+      border-color: $color-primary;
     }
   }
 
   &__roles {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: $spacing-sm;
   }
 
   &__role-btn {
-    padding: 0.5rem 1rem;
-    background: white;
-    border: 2px solid #ecf0f1;
-    border-radius: 20px;
+    padding: $spacing-sm $spacing-md;
+    background: $color-white;
+    border: 2px solid $color-light;
+    border-radius: $border-radius-pill;
     cursor: pointer;
-    font-size: 0.9rem;
-    color: #7f8c8d;
-    transition: all 0.2s;
+    font-size: $font-size-md;
+    color: $color-gray;
+    transition: all $transition-normal;
 
     &:hover {
-      border-color: #3498db;
-      color: #3498db;
+      border-color: $color-primary;
+      color: $color-primary;
     }
 
     &--active {
-      background: #3498db;
-      border-color: #3498db;
-      color: white;
+      background: $color-primary;
+      border-color: $color-primary;
+      color: $color-white;
 
       &:hover {
-        background: #2980b9;
-        border-color: #2980b9;
-        color: white;
+        background: $color-primary-dark;
+        border-color: $color-primary-dark;
+        color: $color-white;
       }
     }
   }
@@ -91,24 +93,24 @@
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    gap: $spacing-lg;
   }
 
   &__empty {
     text-align: center;
-    padding: 3rem;
-    color: #7f8c8d;
-    font-size: 1.1rem;
+    padding: $spacing-xxl;
+    color: $color-gray;
+    font-size: $font-size-lg;
   }
 
   &__error {
-    padding: 1rem;
-    margin-bottom: 1rem;
+    padding: $spacing-md;
+    margin-bottom: $spacing-md;
     background: #fef3f2;
     border: 1px solid #fecaca;
-    border-radius: 8px;
+    border-radius: $border-radius-md;
     color: #dc2626;
-    font-size: 0.9rem;
+    font-size: $font-size-md;
   }
 
   &__pagination {
@@ -116,18 +118,18 @@
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding: 1rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    gap: $spacing-md;
+    margin-top: $spacing-xl;
+    padding: $spacing-md;
+    background: $color-white;
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-md;
 
     &-left,
     &-right {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: $spacing-sm;
     }
 
     &-center {
@@ -137,37 +139,37 @@
     }
 
     &-label {
-      font-size: 0.9rem;
-      color: #7f8c8d;
+      font-size: $font-size-md;
+      color: $color-gray;
     }
   }
 
   &__pagination-select {
     padding: 0.4rem 0.6rem;
-    border: 2px solid #ecf0f1;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    color: #2c3e50;
+    border: 2px solid $color-light;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-md;
+    color: $color-dark;
     cursor: pointer;
 
     &:focus {
       outline: none;
-      border-color: #3498db;
+      border-color: $color-primary;
     }
   }
 
   &__page-btn {
-    padding: 0.5rem 0.75rem;
-    background: #ecf0f1;
+    padding: $spacing-sm 0.75rem;
+    background: $color-light;
     border: none;
-    border-radius: 6px;
+    border-radius: $border-radius-sm;
     cursor: pointer;
-    font-size: 0.9rem;
-    color: #2c3e50;
-    transition: background 0.2s;
+    font-size: $font-size-md;
+    color: $color-dark;
+    transition: background $transition-normal;
 
     &:hover:not(:disabled) {
-      background: #bdc3c7;
+      background: $color-light-dark;
     }
 
     &:disabled {
@@ -176,37 +178,37 @@
     }
 
     &--active {
-      background: #3498db;
-      color: white;
+      background: $color-primary;
+      color: $color-white;
 
       &:hover {
-        background: #2980b9;
+        background: $color-primary-dark;
       }
     }
   }
 
   &__page-ellipsis {
-    padding: 0.5rem;
-    color: #7f8c8d;
+    padding: $spacing-sm;
+    color: $color-gray;
   }
 
   &__page-form {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: $spacing-sm;
   }
 
   &__page-input {
     width: 50px;
     padding: 0.4rem;
-    border: 2px solid #ecf0f1;
-    border-radius: 6px;
-    font-size: 0.9rem;
+    border: 2px solid $color-light;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-md;
     text-align: center;
 
     &:focus {
       outline: none;
-      border-color: #3498db;
+      border-color: $color-primary;
     }
 
     &::-webkit-inner-spin-button,
@@ -218,47 +220,45 @@
 
   &__page-go {
     padding: 0.4rem 0.75rem;
-    background: #2c3e50;
-    color: white;
+    background: $color-dark;
+    color: $color-white;
     border: none;
-    border-radius: 6px;
+    border-radius: $border-radius-sm;
     cursor: pointer;
-    font-size: 0.85rem;
-    transition: background 0.2s;
+    font-size: $font-size-sm;
+    transition: background $transition-normal;
 
     &:hover {
-      background: #34495e;
+      background: $color-dark-light;
     }
   }
 
   &__page-info {
-    font-size: 0.85rem;
-    color: #7f8c8d;
+    font-size: $font-size-sm;
+    color: $color-gray;
   }
 }
 
 .user-card {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: $color-white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  transition: transform $transition-normal, box-shadow $transition-normal;
   position: relative;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: $shadow-xl;
   }
 
   &__link {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: $spacing-md;
     flex: 1;
     color: inherit;
     text-decoration: none;
@@ -266,18 +266,16 @@
 
   &__edit {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem;
-    color: #7f8c8d;
+    top: $spacing-md;
+    right: $spacing-md;
+    padding: $spacing-sm;
+    color: $color-gray;
     opacity: 0.8;
-    transition:
-      opacity 0.2s,
-      color 0.2s;
+    transition: opacity $transition-normal, color $transition-normal;
     text-decoration: none;
 
     &:hover {
-      color: #3498db;
+      color: $color-primary;
     }
   }
 
@@ -290,7 +288,7 @@
     height: 64px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #ecf0f1;
+    border: 3px solid $color-light;
   }
 
   &__info {
@@ -298,48 +296,48 @@
   }
 
   &__name {
-    font-size: 1.1rem;
+    font-size: $font-size-xl;
     margin-bottom: 0.25rem;
-    color: #2c3e50;
+    color: $color-dark;
   }
 
   &__email,
   &__phone {
-    font-size: 0.85rem;
-    color: #7f8c8d;
+    font-size: $font-size-sm;
+    color: $color-gray;
     margin-bottom: 0.25rem;
   }
 
   &__role {
     display: inline-block;
     padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
+    border-radius: $border-radius-pill;
+    font-size: $font-size-xs;
     font-weight: 500;
 
     &--administrador {
-      background: #e74c3c;
-      color: white;
+      background: $color-danger-light;
+      color: $color-white;
     }
 
     &--usuario {
-      background: #3498db;
-      color: white;
+      background: $color-primary;
+      color: $color-white;
     }
 
     &--editor {
-      background: #f39c12;
-      color: white;
+      background: $color-warning-light;
+      color: $color-white;
     }
 
     &--moderador {
-      background: #9b59b6;
-      color: white;
+      background: $color-purple-light;
+      color: $color-white;
     }
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $breakpoint-md) {
   .user-list__pagination {
     flex-direction: column;
     align-items: stretch;
