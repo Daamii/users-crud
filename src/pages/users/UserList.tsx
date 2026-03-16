@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaEdit } from "../../icons";
 import { Link } from "react-router-dom";
 import { useSearchFilter } from "../../components/SearchInput";
+import { FaEdit } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   fetchUsers,
@@ -12,7 +12,7 @@ import {
 } from "../../store/usersSlice";
 import "./UserList.scss";
 
-const PAGE_OPTIONS = [10, 25, 50, 100];
+const PAGE_OPTIONS = [9, 15, 30, 60, 90];
 
 const UserList = () => {
   const { t } = useTranslation();
@@ -172,7 +172,9 @@ const UserList = () => {
           {totalPages > 1 && (
             <div className="user-list__pagination">
               <div className="user-list__pagination-left">
-                <span className="user-list__pagination-label">{t("users.list.pagination.show")}:</span>
+                <span className="user-list__pagination-label">
+                  {t("users.list.pagination.show")}:
+                </span>
                 <select
                   className="user-list__pagination-select"
                   value={limit}
@@ -184,7 +186,9 @@ const UserList = () => {
                     </option>
                   ))}
                 </select>
-                <span className="user-list__pagination-label">{t("users.list.pagination.perPage")}</span>
+                <span className="user-list__pagination-label">
+                  {t("users.list.pagination.perPage")}
+                </span>
               </div>
 
               <div className="user-list__pagination-center">
@@ -226,7 +230,9 @@ const UserList = () => {
                   onSubmit={handlePageInputSubmit}
                   className="user-list__page-form"
                 >
-                  <span className="user-list__pagination-label">{t("users.list.pagination.goTo")}</span>
+                  <span className="user-list__pagination-label">
+                    {t("users.list.pagination.goTo")}
+                  </span>
                   <input
                     type="number"
                     min={1}
@@ -240,7 +246,9 @@ const UserList = () => {
                     {t("users.list.pagination.go")}
                   </button>
                 </form>
-                <span className="user-list__page-info">({t("users.list.pagination.total", { count: total })})</span>
+                <span className="user-list__page-info">
+                  ({t("users.list.pagination.total", { count: total })})
+                </span>
               </div>
             </div>
           )}

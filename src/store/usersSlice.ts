@@ -22,7 +22,7 @@ const initialState: UsersState = {
   selectedUser: null,
   total: 0,
   page: 1,
-  limit: 10,
+  limit: 9,
   totalPages: 1,
   loading: false,
   error: null,
