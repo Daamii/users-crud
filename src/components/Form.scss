@@ -78,6 +78,22 @@
   cursor: pointer;
   transition: all $transition-normal;
 
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.6rem 1rem;
+    font-size: $font-size-md;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
   &--primary {
     background: $color-success;
     color: $color-white;
@@ -229,8 +245,10 @@
 .phone-input {
   display: flex;
   gap: $spacing-sm;
+  min-width: 0;
 
   &__prefix {
+    flex-shrink: 0;
     width: 120px;
     padding: 0.75rem;
     border: 2px solid var(--border-color);
@@ -249,6 +267,7 @@
 
   &__number {
     flex: 1;
+    min-width: 0;
     padding: 0.75rem 1rem;
     border: 2px solid var(--border-color);
     border-radius: $border-radius-md;
