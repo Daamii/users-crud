@@ -1,9 +1,23 @@
 @use "../../styles/variables" as *;
 
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+
+    > * {
+      flex: 1;
+    }
+  }
+}
+
 .user-form {
   max-width: 600px;
   margin: 0 auto;
-  padding: $spacing-xl;
+  padding: $spacing-lg;
 
   &__header {
     display: flex;

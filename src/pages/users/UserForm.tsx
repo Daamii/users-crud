@@ -30,45 +30,49 @@ export function UserForm({
 
   return (
     <>
-      <FormInput
-        label={t("users.form.fields.firstName")}
-        name="firstName"
-        value={values.firstName}
-        onChange={handleChange}
-        error={errors.firstName}
-        required
-        placeholder={t("users.form.placeholders.firstName")}
-      />
+      <div className="form-row">
+        <FormInput
+          label={t("users.form.fields.firstName")}
+          name="firstName"
+          value={values.firstName}
+          onChange={handleChange}
+          error={errors.firstName}
+          required
+          placeholder={t("users.form.placeholders.firstName")}
+        />
 
-      <FormInput
-        label={t("users.form.fields.lastName")}
-        name="lastName"
-        value={values.lastName}
-        onChange={handleChange}
-        error={errors.lastName}
-        required
-        placeholder={t("users.form.placeholders.lastName")}
-      />
+        <FormInput
+          label={t("users.form.fields.lastName")}
+          name="lastName"
+          value={values.lastName}
+          onChange={handleChange}
+          error={errors.lastName}
+          required
+          placeholder={t("users.form.placeholders.lastName")}
+        />
+      </div>
 
-      <FormInput
-        label={t("users.form.fields.email")}
-        name="email"
-        type="email"
-        value={values.email}
-        onChange={handleChange}
-        error={errors.email}
-        required
-        placeholder={t("users.form.placeholders.email")}
-      />
+      <div className="form-row">
+        <FormInput
+          label={t("users.form.fields.email")}
+          name="email"
+          type="email"
+          value={values.email}
+          onChange={handleChange}
+          error={errors.email}
+          required
+          placeholder={t("users.form.placeholders.email")}
+        />
 
-      <PhoneInput
-        label={t("users.form.fields.phone")}
-        name="phone"
-        value={values.phone}
-        onChange={handleChange}
-        error={errors.phone}
-        required
-      />
+        <PhoneInput
+          label={t("users.form.fields.phone")}
+          name="phone"
+          value={values.phone}
+          onChange={handleChange}
+          error={errors.phone}
+          required
+        />
+      </div>
 
       <FormSelect
         label={t("users.form.fields.role")}
