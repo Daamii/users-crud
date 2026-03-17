@@ -1,10 +1,17 @@
+import usersData from "../data/users.json";
 import { User, UserFormData } from "../types/user";
 import { removeAccents } from "../utils";
 
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA !== "false";
 const API_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const generateUUID = (): string => {
+  return "550e8400-e29b-41d4-a716-" + 
+    Math.floor(Math.random() * 0xffffffff).toString().padStart(12, "0");
+};
 
 export interface FetchUsersParams {
   page?: number;
@@ -75,6 +82,83 @@ const reverseRoleMap: Record<string, string> = {
   Moderador: "moderator",
 };
 
+const usersDb: User[] = [...usersData];
+
+const filterAndSortUsers = (
+  users: User[],
+  params: FetchUsersParams,
+): User[] => {
+  let filteredUsers = [...users];
+
+  if (params.search) {
+    const searchNormalized = removeAccents(params.search.toLowerCase());
+    filteredUsers = filteredUsers.filter((u) => {
+      const fullName = removeAccents(
+        `${u.firstName} ${u.lastName}`.toLowerCase(),
+      );
+      const firstNameNorm = removeAccents(u.firstName.toLowerCase());
+      const lastNameNorm = removeAccents(u.lastName.toLowerCase());
+      const emailNorm = removeAccents(u.email.toLowerCase());
+
+      return (
+        fullName.includes(searchNormalized) ||
+        firstNameNorm.includes(searchNormalized) ||
+        lastNameNorm.includes(searchNormalized) ||
+        emailNorm.includes(searchNormalized)
+      );
+    });
+  }
+
+  if (params.role) {
+    filteredUsers = filteredUsers.filter((u) => u.role === params.role);
+  }
+
+  if (params.sort) {
+    const [field, direction] = params.sort.split(":");
+    filteredUsers.sort((a, b) => {
+      let aVal = "";
+      let bVal = "";
+
+      if (field === "name") {
+        aVal = `${a.firstName} ${a.lastName}`.toLowerCase();
+        bVal = `${b.firstName} ${b.lastName}`.toLowerCase();
+      } else if (field === "email") {
+        aVal = a.email.toLowerCase();
+        bVal = b.email.toLowerCase();
+      } else if (field === "role") {
+        aVal = a.role.toLowerCase();
+        bVal = b.role.toLowerCase();
+      }
+
+      if (direction === "desc") {
+        return bVal.localeCompare(aVal);
+      }
+      return aVal.localeCompare(bVal);
+    });
+  }
+
+  return filteredUsers;
+};
+
+const getPaginatedResponse = (
+  users: User[],
+  page: number,
+  limit: number,
+): PaginatedResponse<User> => {
+  const total = users.length;
+  const totalPages = Math.ceil(total / limit);
+  const start = (page - 1) * limit;
+  const paginatedData = users.slice(start, start + limit);
+
+  return {
+    data: paginatedData,
+    total,
+    page,
+    totalPages,
+    limit,
+  };
+};
+
 export const api = {
   getUsers: async (
     params: FetchUsersParams = {},
@@ -83,9 +167,13 @@ export const api = {
 
     const page = params.page || 1;
     const limit = params.limit || 9;
-    const hasLocalFilter = !!params.search || !!params.role || !!params.sort;
 
-    let users: User[];
+    if (USE_MOCK_DATA) {
+      const filteredUsers = filterAndSortUsers(usersDb, params);
+      return getPaginatedResponse(filteredUsers, page, limit);
+    }
+
+    const hasLocalFilter = !!params.search || !!params.role || !!params.sort;
 
     if (hasLocalFilter) {
       const allUrl = new URL(API_URL);
@@ -101,97 +189,45 @@ export const api = {
       }
 
       const json: ApiResponse = await response.json();
-      users = json.data.map(mapApiUser);
-    } else {
-      const url = new URL(API_URL);
-      url.searchParams.set("page", String(page));
-      url.searchParams.set("limit", String(limit));
-
-      const response = await fetch(url.toString(), {
-        headers: { "x-api-key": API_KEY },
-      });
-
-      if (!response.ok) {
-        throw new Error("Error loading users");
-      }
-
-      const json: ApiResponse = await response.json();
-      users = json.data.map(mapApiUser);
-
-      return {
-        data: users,
-        total: json.meta.total,
-        page: json.meta.page,
-        totalPages: json.meta.pages,
-        limit: json.meta.limit,
-      };
+      const users = json.data.map(mapApiUser);
+      const filteredUsers = filterAndSortUsers(users, params);
+      return getPaginatedResponse(filteredUsers, page, limit);
     }
 
-    let filteredUsers = [...users];
+    const url = new URL(API_URL);
+    url.searchParams.set("page", String(page));
+    url.searchParams.set("limit", String(limit));
 
-    if (params.search) {
-      const searchNormalized = removeAccents(params.search.toLowerCase());
-      filteredUsers = filteredUsers.filter((u) => {
-        const fullName = removeAccents(
-          `${u.firstName} ${u.lastName}`.toLowerCase(),
-        );
-        const firstNameNorm = removeAccents(u.firstName.toLowerCase());
-        const lastNameNorm = removeAccents(u.lastName.toLowerCase());
-        const emailNorm = removeAccents(u.email.toLowerCase());
+    const response = await fetch(url.toString(), {
+      headers: { "x-api-key": API_KEY },
+    });
 
-        return (
-          fullName.includes(searchNormalized) ||
-          firstNameNorm.includes(searchNormalized) ||
-          lastNameNorm.includes(searchNormalized) ||
-          emailNorm.includes(searchNormalized)
-        );
-      });
+    if (!response.ok) {
+      throw new Error("Error loading users");
     }
 
-    if (params.role) {
-      filteredUsers = filteredUsers.filter((u) => u.role === params.role);
-    }
-
-    if (params.sort) {
-      const [field, direction] = params.sort.split(":");
-      filteredUsers.sort((a, b) => {
-        let aVal = "";
-        let bVal = "";
-
-        if (field === "name") {
-          aVal = `${a.firstName} ${a.lastName}`.toLowerCase();
-          bVal = `${b.firstName} ${b.lastName}`.toLowerCase();
-        } else if (field === "email") {
-          aVal = a.email.toLowerCase();
-          bVal = b.email.toLowerCase();
-        } else if (field === "role") {
-          aVal = a.role.toLowerCase();
-          bVal = b.role.toLowerCase();
-        }
-
-        if (direction === "desc") {
-          return bVal.localeCompare(aVal);
-        }
-        return aVal.localeCompare(bVal);
-      });
-    }
-
-    const total = filteredUsers.length;
-    const totalPages = Math.ceil(total / limit);
-    const start = (page - 1) * limit;
-    const paginatedData = filteredUsers.slice(start, start + limit);
+    const json: ApiResponse = await response.json();
+    const users = json.data.map(mapApiUser);
 
     return {
-      data: paginatedData,
-      total,
-      page,
-      totalPages,
-      limit,
+      data: users,
+      total: json.meta.total,
+      page: json.meta.page,
+      totalPages: json.meta.pages,
+      limit: json.meta.limit,
     };
   },
 
   getUserById: async (id: string): Promise<User | undefined> => {
     await delay(300);
+
+    if (USE_MOCK_DATA) {
+      const user = usersDb.find((u) => u.id === id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+      return user;
+    }
 
     const url = `${API_URL}/${id}`;
 
@@ -212,6 +248,24 @@ export const api = {
 
   updateUser: async (id: string, data: UserFormData): Promise<User> => {
     await delay(500);
+
+    if (USE_MOCK_DATA) {
+      const index = usersDb.findIndex((u) => u.id === id);
+      if (index === -1) {
+        throw new Error("User not found");
+      }
+
+      const updatedUser: User = {
+        ...usersDb[index],
+        ...data,
+        avatar:
+          data.avatar ||
+          `https://ui-avatars.com/api/?name=${data.firstName}+${data.lastName}`,
+      };
+
+      usersDb[index] = updatedUser;
+      return updatedUser;
+    }
 
     const url = new URL(`${API_URL}/${id}`);
 
@@ -246,6 +300,22 @@ export const api = {
   createUser: async (data: UserFormData): Promise<User> => {
     await delay(500);
 
+    if (USE_MOCK_DATA) {
+      const newId = generateUUID();
+
+      const newUser: User = {
+        id: newId,
+        ...data,
+        avatar:
+          data.avatar ||
+          `https://ui-avatars.com/api/?name=${data.firstName}+${data.lastName}`,
+        createdAt: new Date().toISOString(),
+      };
+
+      usersDb.unshift(newUser);
+      return newUser;
+    }
+
     const response = await fetch(API_URL, {
       method: "POST",
       headers: {
@@ -276,6 +346,16 @@ export const api = {
 
   deleteUser: async (id: string): Promise<void> => {
     await delay(500);
+
+    if (USE_MOCK_DATA) {
+      const index = usersDb.findIndex((u) => u.id === id);
+      if (index === -1) {
+        throw new Error("User not found");
+      }
+
+      usersDb.splice(index, 1);
+      return;
+    }
 
     const url = new URL(`${API_URL}/${id}`);
 
