@@ -59,7 +59,7 @@ function AppContent() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/users-crud/">
       <AppContent />
     </BrowserRouter>
   );
