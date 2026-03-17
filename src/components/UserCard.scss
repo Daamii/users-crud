@@ -1,0 +1,103 @@
+@use "../../styles/variables" as *;
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: var(--surface-color);
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  transition:
+    transform $transition-normal,
+    box-shadow $transition-normal;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-xl;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    flex: 1;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &__edit {
+    position: absolute;
+    top: $spacing-md;
+    right: $spacing-md;
+    padding: $spacing-sm;
+    color: var(--text-muted);
+    opacity: 0.8;
+    transition:
+      opacity $transition-normal,
+      color $transition-normal;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  &:hover &__edit {
+    opacity: 1;
+  }
+
+  &__avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--border-color);
+  }
+
+  &__info {
+    flex: 1;
+  }
+
+  &__name {
+    font-size: $font-size-xl;
+    margin-bottom: 0.25rem;
+    color: var(--text-color);
+  }
+
+  &__email,
+  &__phone {
+    font-size: $font-size-sm;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+  }
+
+  &__role {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: $border-radius-pill;
+    font-size: $font-size-xs;
+    font-weight: 500;
+
+    &--administrador {
+      background: $color-danger-light;
+      color: $color-white;
+    }
+
+    &--usuario {
+      background: $color-primary;
+      color: $color-white;
+    }
+
+    &--editor {
+      background: $color-warning-light;
+      color: $color-white;
+    }
+
+    &--moderador {
+      background: $color-purple-light;
+      color: $color-white;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@use "../styles/variables" as *;
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $spacing-lg;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: $spacing-xs;
+
+  &--overflow-bottom {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 90%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 90%,
+      transparent 100%
+    );
+  }
+}

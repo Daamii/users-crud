@@ -4,25 +4,55 @@ User management application built with React, TypeScript, Vite, Redux Toolkit, a
 
 ## Features
 
+### User Management
+
 - User listing with pagination, filtering, sorting, and search
 - User creation, editing, and deletion
 - Avatar selection using pravatar.cc API
-- Light/Dark theme support
+
+### Visualización
+
+- Grid view with user cards
+- Table view with fixed headers
+- Scrollable content with blur effect
+- Mobile-responsive design (forces grid on mobile)
+
+### Filtering & Sorting
+
+- Search by name or email (with debounce)
+- Filter by role (Administrador, Usuario, Editor, Moderador)
+- Sort by name, email, or role (ascending/descending)
+
+### Personalización
+
+- Light/Dark theme toggle (persisted in localStorage)
 - Multi-language support (Spanish/English)
-- Grid/Table view toggle
-- Mobile-responsive design
-- URL parameter persistence for filters/pagination
+- Grid/Table view toggle (persisted in localStorage)
+
+### UX
+
 - Toast notifications for CRUD operations
+- Phone input with country prefix selector
+- Loading states
+- Error handling
+- Lazy loading for detail/edit/create pages
+
+### Technical
+
+- Mock data (75 users) or external API support
+- UUID-based user IDs
+- Redux Toolkit for state management
+- TypeScript with strict typing
 
 ## Requirements
 
-| Tool | Version |
-|------|---------|
-| Node.js | 18+ |
-| npm | 9+ |
-| React | 18.2+ |
-| TypeScript | 5.2+ |
-| Vite | 5.1+ |
+| Tool       | Version |
+| ---------- | ------- |
+| Node.js    | 18+     |
+| npm        | 9+      |
+| React      | 18.2+   |
+| TypeScript | 5.2+    |
+| Vite       | 5.1+    |
 
 ## Installation
 
@@ -43,11 +73,11 @@ cp .env.example .env
 
 ### Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `VITE_API_URL` | External API URL | `https://reqres.in/api/collections/users/records` |
-| `VITE_API_KEY` | API key for external API | - |
-| `VITE_USE_MOCK_DATA` | Use local mock data | `true` |
+| Variable             | Description              | Default                                           |
+| -------------------- | ------------------------ | ------------------------------------------------- |
+| `VITE_API_URL`       | External API URL         | `https://reqres.in/api/collections/users/records` |
+| `VITE_API_KEY`       | API key for external API | -                                                 |
+| `VITE_USE_MOCK_DATA` | Use local mock data      | `true`                                            |
 
 To use external API, set `VITE_USE_MOCK_DATA=false` in `.env`.
 

@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import { MOBILE_BREAKPOINT, PAGE_OPTIONS } from "../../constants";
-import { isMobile } from "../../utils";
+import { Pagination } from "../../components/Pagination";
 import { useSearchFilter } from "../../components/SearchInput";
-import { FaEdit, FiGrid, FiList } from "../../icons";
+import { UserTable } from "../../components/UserTable";
+import { UsersGrid } from "../../components/UsersGrid";
+import { FiGrid, FiList } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   fetchUsers,
@@ -13,6 +13,7 @@ import {
   setPage,
   setSort,
 } from "../../store/usersSlice";
+import { isMobile } from "../../utils";
 import "./UserList.scss";
 
 const UserList = () => {
@@ -31,15 +32,17 @@ const UserList = () => {
   } = useAppSelector((state) => state.users);
 
   const [pageInput, setPageInput] = useState("");
+  const [scrollState, setScrollState] = useState({ top: false, bottom: true });
+  const contentRef = useRef<HTMLDivElement>(null);
   const [viewMode, setViewMode] = useState<"grid" | "table">(() => {
-    if (isMobile(MOBILE_BREAKPOINT)) return "grid";
+    if (isMobile()) return "grid";
     const saved = localStorage.getItem("viewMode");
     return saved === "table" ? "table" : "grid";
   });
   const { searchInput, setSearchInput, debouncedSearch } = useSearchFilter();
 
   useEffect(() => {
-    if (!isMobile(MOBILE_BREAKPOINT)) {
+    if (!isMobile()) {
       localStorage.setItem("viewMode", viewMode);
     } else if (viewMode !== "grid") {
       setViewMode("grid");
@@ -62,56 +65,75 @@ const UserList = () => {
     );
   }, [dispatch, page, limit, filters.search, filters.role, sort]);
 
-  const handleRoleChange = useCallback((role: string) => {
-    dispatch(setFilters({ role }));
-  }, [dispatch]);
+  useEffect(() => {
+    const checkScroll = () => {
+      if (contentRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = contentRef.current;
+        const hasOverflow = scrollHeight > clientHeight;
+        setScrollState({
+          top: hasOverflow && scrollTop > 0,
+          bottom: hasOverflow && scrollTop + clientHeight < scrollHeight - 1,
+        });
+      }
+    };
 
-  const handlePageChange = useCallback((newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      dispatch(setPage(newPage));
+    const content = contentRef.current;
+    if (content) {
+      checkScroll();
+      content.addEventListener("scroll", checkScroll);
+      window.addEventListener("resize", checkScroll);
+      return () => {
+        content.removeEventListener("scroll", checkScroll);
+        window.removeEventListener("resize", checkScroll);
+      };
     }
-  }, [dispatch, totalPages]);
+  }, [users, viewMode]);
 
-  const handlePageInputSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    const newPage = parseInt(pageInput, 10);
-    if (!isNaN(newPage)) {
-      handlePageChange(newPage);
-    }
-    setPageInput("");
-  }, [pageInput, handlePageChange]);
+  const handleRoleChange = useCallback(
+    (role: string) => {
+      dispatch(setFilters({ role }));
+    },
+    [dispatch],
+  );
 
-  const handleLimitChange = useCallback((newLimit: number) => {
-    dispatch(setLimit({ limit: newLimit }));
-  }, [dispatch]);
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      if (newPage >= 1 && newPage <= totalPages) {
+        dispatch(setPage(newPage));
+      }
+    },
+    [dispatch, totalPages],
+  );
 
-  const handleSortChange = useCallback((newSort: string) => {
-    dispatch(setSort(newSort));
-  }, [dispatch]);
+  const handlePageInputSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      const newPage = parseInt(pageInput, 10);
+      if (!isNaN(newPage)) {
+        handlePageChange(newPage);
+      }
+      setPageInput("");
+    },
+    [pageInput, handlePageChange],
+  );
 
-  const getPageNumbers = useMemo(() => {
-    const pages: (number | string)[] = [];
-    const maxVisible = 5;
+  const handleLimitChange = useCallback(
+    (newLimit: number) => {
+      dispatch(setLimit({ limit: newLimit }));
+    },
+    [dispatch],
+  );
 
-    if (totalPages <= maxVisible + 2) {
-      for (let i = 1; i <= totalPages; i++) pages.push(i);
-    } else {
-      pages.push(1);
+  const handleSortChange = useCallback(
+    (newSort: string) => {
+      dispatch(setSort(newSort));
+    },
+    [dispatch],
+  );
 
-      if (page > 3) pages.push("...");
-
-      const start = Math.max(2, page - 1);
-      const end = Math.min(totalPages - 1, page + 1);
-
-      for (let i = start; i <= end; i++) pages.push(i);
-
-      if (page < totalPages - 2) pages.push("...");
-
-      pages.push(totalPages);
-    }
-
-    return pages;
-  }, [page, totalPages]);
+  const handlePageInputChange = useCallback((value: string) => {
+    setPageInput(value);
+  }, []);
 
   return (
     <div className="user-list">
@@ -204,91 +226,17 @@ const UserList = () => {
           {error && <div className="user-list__error">{error}</div>}
 
           {viewMode === "grid" ? (
-            <div className="user-list__grid">
-              {users.map((user) => (
-                <div key={user.id} className="user-card">
-                  <Link to={`/user/${user.id}`} className="user-card__link">
-                    <img
-                      src={user.avatar}
-                      alt={user.firstName}
-                      className="user-card__avatar"
-                    />
-                    <div className="user-card__info">
-                      <h2 className="user-card__name">
-                        {user.firstName} {user.lastName}
-                      </h2>
-                      <p className="user-card__email">{user.email}</p>
-                      <p className="user-card__phone">{user.phone}</p>
-                      <span
-                        className={`user-card__role user-card__role--${user.role.toLowerCase()}`}
-                      >
-                        {t(`users.roles.${user.role}`)}
-                      </span>
-                    </div>
-                  </Link>
-                  <Link
-                    to={`/user/${user.id}/edit`}
-                    className="user-card__edit"
-                    title={t("users.detail.edit")}
-                  >
-                    <FaEdit size={18} />
-                  </Link>
-                </div>
-              ))}
-            </div>
+            <UsersGrid
+              ref={contentRef}
+              users={users}
+              hasOverflowBottom={scrollState.bottom}
+            />
           ) : (
-            <div className="user-list__table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>{t("users.list.table.avatar")}</th>
-                    <th>{t("users.list.table.name")}</th>
-                    <th>{t("users.list.table.email")}</th>
-                    <th>{t("users.list.table.phone")}</th>
-                    <th>{t("users.list.table.role")}</th>
-                    <th>{t("users.list.table.actions")}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user) => (
-                    <tr
-                      key={user.id}
-                      onClick={() =>
-                        (window.location.href = `/user/${user.id}`)
-                      }
-                    >
-                      <td>
-                        <img
-                          src={user.avatar}
-                          alt={user.firstName}
-                          className="user-list__table-avatar"
-                        />
-                      </td>
-                      <td>
-                        {user.firstName} {user.lastName}
-                      </td>
-                      <td>{user.email}</td>
-                      <td>{user.phone}</td>
-                      <td>
-                        <span
-                          className={`user-card__role user-card__role--${user.role.toLowerCase()}`}
-                        >
-                          {t(`users.roles.${user.role}`)}
-                        </span>
-                      </td>
-                      <td onClick={(e) => e.stopPropagation()}>
-                        <Link
-                          to={`/user/${user.id}/edit`}
-                          className="user-list__table-edit"
-                          title={t("users.detail.edit")}
-                        >
-                          <FaEdit size={16} />
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div
+              ref={contentRef}
+              className={`user-list__table ${scrollState.bottom ? "user-list__table--overflow-bottom" : ""}`}
+            >
+              <UserTable users={users} />
             </div>
           )}
 
@@ -297,87 +245,17 @@ const UserList = () => {
           )}
 
           {users.length > 0 && (
-            <div className="user-list__pagination">
-              <div className="user-list__pagination-left">
-                <span className="user-list__pagination-label">
-                  {t("users.list.pagination.show")}:
-                </span>
-                <select
-                  className="user-list__pagination-select"
-                  value={limit}
-                  onChange={(e) => handleLimitChange(Number(e.target.value))}
-                >
-                  {PAGE_OPTIONS.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-                <span className="user-list__pagination-label">
-                  {t("users.list.pagination.perPage")}
-                </span>
-              </div>
-
-              <div className="user-list__pagination-center">
-                <button
-                  className="user-list__page-btn"
-                  onClick={() => handlePageChange(page - 1)}
-                  disabled={page === 1}
-                >
-                  {"<"}
-                </button>
-
-                {getPageNumbers.map((p, idx) =>
-                  typeof p === "number" ? (
-                    <button
-                      key={idx}
-                      className={`user-list__page-btn ${p === page ? "user-list__page-btn--active" : ""}`}
-                      onClick={() => handlePageChange(p)}
-                    >
-                      {p}
-                    </button>
-                  ) : (
-                    <span key={idx} className="user-list__page-ellipsis">
-                      {p}
-                    </span>
-                  ),
-                )}
-
-                <button
-                  className="user-list__page-btn"
-                  onClick={() => handlePageChange(page + 1)}
-                  disabled={page === totalPages}
-                >
-                  {">"}
-                </button>
-              </div>
-
-              <div className="user-list__pagination-right">
-                <form
-                  onSubmit={handlePageInputSubmit}
-                  className="user-list__page-form"
-                >
-                  <span className="user-list__pagination-label">
-                    {t("users.list.pagination.goTo")}
-                  </span>
-                  <input
-                    type="number"
-                    min={1}
-                    max={totalPages}
-                    value={pageInput}
-                    onChange={(e) => setPageInput(e.target.value)}
-                    className="user-list__page-input"
-                    placeholder={String(page)}
-                  />
-                  <button type="submit" className="user-list__page-go">
-                    {t("users.list.pagination.go")}
-                  </button>
-                </form>
-                <span className="user-list__page-info">
-                  ({t("users.list.pagination.total", { count: total })})
-                </span>
-              </div>
-            </div>
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              total={total}
+              limit={limit}
+              pageInput={pageInput}
+              onPageChange={handlePageChange}
+              onLimitChange={handleLimitChange}
+              onPageInputSubmit={handlePageInputSubmit}
+              onPageInputChange={handlePageInputChange}
+            />
           )}
         </>
       )}
