@@ -2,15 +2,23 @@ import usersData from "../data/users.json";
 import { User, UserFormData } from "../types/user";
 import { removeAccents } from "../utils";
 
-const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA !== "false";
+const shouldUseMockData = () => {
+  if (typeof window === "undefined") return false;
+  return new URLSearchParams(window.location.search).get("mock") === "true";
+};
+
 const API_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const generateUUID = (): string => {
-  return "550e8400-e29b-41d4-a716-" + 
-    Math.floor(Math.random() * 0xffffffff).toString().padStart(12, "0");
+  return (
+    "550e8400-e29b-41d4-a716-" +
+    Math.floor(Math.random() * 0xffffffff)
+      .toString()
+      .padStart(12, "0")
+  );
 };
 
 export interface FetchUsersParams {
@@ -168,7 +176,7 @@ export const api = {
     const page = params.page || 1;
     const limit = params.limit || 9;
 
-    if (USE_MOCK_DATA) {
+    if (shouldUseMockData()) {
       const filteredUsers = filterAndSortUsers(usersDb, params);
       return getPaginatedResponse(filteredUsers, page, limit);
     }
@@ -221,7 +229,7 @@ export const api = {
   getUserById: async (id: string): Promise<User | undefined> => {
     await delay(300);
 
-    if (USE_MOCK_DATA) {
+    if (shouldUseMockData()) {
       const user = usersDb.find((u) => u.id === id);
       if (!user) {
         throw new Error("User not found");
@@ -249,7 +257,7 @@ export const api = {
   updateUser: async (id: string, data: UserFormData): Promise<User> => {
     await delay(500);
 
-    if (USE_MOCK_DATA) {
+    if (shouldUseMockData()) {
       const index = usersDb.findIndex((u) => u.id === id);
       if (index === -1) {
         throw new Error("User not found");
@@ -300,7 +308,7 @@ export const api = {
   createUser: async (data: UserFormData): Promise<User> => {
     await delay(500);
 
-    if (USE_MOCK_DATA) {
+    if (shouldUseMockData()) {
       const newId = generateUUID();
 
       const newUser: User = {
@@ -347,7 +355,7 @@ export const api = {
   deleteUser: async (id: string): Promise<void> => {
     await delay(500);
 
-    if (USE_MOCK_DATA) {
+    if (shouldUseMockData()) {
       const index = usersDb.findIndex((u) => u.id === id);
       if (index === -1) {
         throw new Error("User not found");

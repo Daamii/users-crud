@@ -2,7 +2,8 @@
   "app": {
     "title": "CRUD de Usuarios",
     "loading": "Cargando...",
-    "error": "Error"
+    "error": "Error",
+    "usingMockDataWarning": "⚠️ Usando datos mockeados. Quita ?mock=true de la URL para usar la API."
   },
   "users": {
     "list": {

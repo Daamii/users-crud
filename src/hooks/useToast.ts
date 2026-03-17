@@ -1,10 +1,28 @@
-import { useContext } from "react";
-import { ToastContext } from "../context/ToastContext";
+import { useCallback } from "react";
+import {
+  removeToast,
+  selectToasts,
+  showToast as showToastAction,
+} from "../store/appSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 export function useToast() {
-  const context = useContext(ToastContext);
-  if (!context) {
-    throw new Error("useToast must be used within ToastProvider");
-  }
-  return context;
+  const toasts = useAppSelector(selectToasts);
+  const dispatch = useAppDispatch();
+
+  const showToast = useCallback(
+    (message: string, type: "success" | "error" | "info" = "success") => {
+      dispatch(showToastAction({ message, type }));
+    },
+    [dispatch],
+  );
+
+  const removeToastCallback = useCallback(
+    (id: number) => {
+      dispatch(removeToast(id));
+    },
+    [dispatch],
+  );
+
+  return { toasts, showToast, removeToast: removeToastCallback };
 }

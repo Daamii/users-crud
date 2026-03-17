@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { KeepSearchParamsLink } from "../../components/KeepSearchParamsLink";
 import { useForm } from "../../hooks/useForm";
 import { useToast } from "../../hooks/useToast";
 import { FiArrowLeft, FiSave } from "../../icons";
@@ -18,6 +19,7 @@ import "./UserForm.scss";
 const UserCreate = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const { showToast } = useToast();
   const { values, errors, handleChange, validateAll } = useForm(
@@ -40,16 +42,16 @@ const UserCreate = () => {
         } as import("../../types/user").UserFormData),
       );
       showToast(t("users.toast.createSuccess"));
-      navigate("/");
+      navigate(`/?${searchParams.toString()}`);
     }
   };
 
   return (
     <div className="user-form">
       <div className="user-form__header">
-        <button onClick={() => navigate("/")} className="user-form__back">
+        <KeepSearchParamsLink to="/" className="user-form__back">
           <FiArrowLeft size={18} /> {t("users.form.cancel")}
-        </button>
+        </KeepSearchParamsLink>
         <h1 className="user-form__title">{t("users.form.create")}</h1>
       </div>
 

@@ -2,7 +2,8 @@
   "app": {
     "title": "Users CRUD",
     "loading": "Loading...",
-    "error": "Error"
+    "error": "Error",
+    "usingMockDataWarning": "⚠️ Using mock data. Remove ?mock=true from the URL to use the API."
   },
   "users": {
     "list": {

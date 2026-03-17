@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import "../../components/Form.scss";
+import { KeepSearchParamsLink } from "../../components/KeepSearchParamsLink";
 import { useForm } from "../../hooks/useForm";
 import { useToast } from "../../hooks/useToast";
 import { FiArrowLeft, FiSave, FiTrash2 } from "../../icons";
@@ -23,6 +24,7 @@ const UserEdit = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const { showToast } = useToast();
   const { selectedUser, loading, error } = useAppSelector(
@@ -71,7 +73,7 @@ const UserEdit = () => {
         }),
       );
       showToast(t("users.toast.editSuccess"));
-      navigate("/");
+      navigate(`/?${searchParams.toString()}`);
     }
   };
 
@@ -79,7 +81,7 @@ const UserEdit = () => {
     if (id && window.confirm(t("users.form.deleteConfirm"))) {
       await dispatch(deleteUser(id));
       showToast(t("users.toast.deleteSuccess"));
-      navigate("/");
+      navigate(`/?${searchParams.toString()}`);
     }
   };
 
@@ -92,9 +94,9 @@ const UserEdit = () => {
   return (
     <div className="user-form">
       <div className="user-form__header">
-        <button onClick={() => navigate("/")} className="user-form__back">
+        <KeepSearchParamsLink to="/" className="user-form__back">
           <FiArrowLeft size={18} /> {t("users.detail.back")}
-        </button>
+        </KeepSearchParamsLink>
         <h1 className="user-form__title">{t("users.form.edit")}</h1>
       </div>
 

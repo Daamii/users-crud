@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { FaEdit } from "../icons";
 import { User } from "../types/user";
+import { KeepSearchParamsLink } from "./KeepSearchParamsLink";
 import "./UserCard.scss";
 
 interface UserCardProps {
@@ -13,7 +13,7 @@ export const UserCard = ({ user }: UserCardProps) => {
 
   return (
     <div className="user-card">
-      <Link to={`/user/${user.id}`} className="user-card__link">
+      <KeepSearchParamsLink to={`/user/${user.id}`} className="user-card__link">
         <img
           src={user.avatar}
           alt={user.firstName}
@@ -31,14 +31,14 @@ export const UserCard = ({ user }: UserCardProps) => {
             {t(`users.roles.${user.role}`)}
           </span>
         </div>
-      </Link>
-      <Link
+      </KeepSearchParamsLink>
+      <KeepSearchParamsLink
         to={`/user/${user.id}/edit`}
         className="user-card__edit"
         title={t("users.detail.edit")}
       >
         <FaEdit size={18} />
-      </Link>
+      </KeepSearchParamsLink>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { KeepSearchParamsLink } from "../../components/KeepSearchParamsLink";
 import { useToast } from "../../hooks/useToast";
 import { FiArrowLeft, FiEdit2, FiTrash2 } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -16,6 +17,7 @@ const UserDetail = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const { showToast } = useToast();
   const { selectedUser, loading, error } = useAppSelector(
@@ -35,7 +37,7 @@ const UserDetail = () => {
     if (id && window.confirm(t("users.form.deleteConfirm"))) {
       await dispatch(deleteUser(id));
       showToast(t("users.toast.deleteSuccess"));
-      navigate("/");
+      navigate(`/?${searchParams.toString()}`);
     }
   };
 
@@ -49,9 +51,9 @@ const UserDetail = () => {
   return (
     <div className="user-detail">
       <div className="user-detail__header">
-        <button onClick={() => navigate("/")} className="user-detail__back">
+        <KeepSearchParamsLink to="/" className="user-detail__back">
           <FiArrowLeft size={18} /> {t("users.detail.back")}
-        </button>
+        </KeepSearchParamsLink>
         <div className="user-detail__actions">
           <button
             onClick={handleDelete}
@@ -60,9 +62,12 @@ const UserDetail = () => {
           >
             <FiTrash2 size={18} /> {t("users.detail.delete")}
           </button>
-          <Link to={`/user/${id}/edit`} className="user-detail__edit">
+          <KeepSearchParamsLink
+            to={`/user/${id}/edit`}
+            className="user-detail__edit"
+          >
             <FiEdit2 size={18} /> {t("users.detail.edit")}
-          </Link>
+          </KeepSearchParamsLink>
         </div>
       </div>
 

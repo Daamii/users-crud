@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { FiPlus } from "../icons";
 import "./Header.scss";
+import { KeepSearchParamsLink } from "./KeepSearchParamsLink";
 import { LanguageSelector } from "./LanguageSelector";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -15,16 +15,19 @@ export function Header({
   return (
     <header className="app-header">
       <div className="app-header__content">
-        <Link to="/" className="app-header__title">
+        <KeepSearchParamsLink to="/" className="app-header__title">
           <h1>{t("users.list.title")}</h1>
-        </Link>
+        </KeepSearchParamsLink>
         <div className="app-header__actions">
           <LanguageSelector />
           <ThemeToggle />
           {showCreateButton && (
-            <Link to="/create" className="app-header__create-btn">
+            <KeepSearchParamsLink
+              to="/create"
+              className="app-header__create-btn"
+            >
               <FiPlus size={18} /> {t("users.list.create")}
-            </Link>
+            </KeepSearchParamsLink>
           )}
         </div>
       </div>

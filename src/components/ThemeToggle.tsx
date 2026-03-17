@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../hooks/useTheme";
 import { FiMoon, FiSun } from "../icons";
 import "./ThemeToggle.scss";
 

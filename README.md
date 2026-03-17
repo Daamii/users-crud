@@ -74,13 +74,12 @@ cp .env.example .env
 
 ### Environment Variables
 
-| Variable             | Description              | Default                                           |
-| -------------------- | ------------------------ | ------------------------------------------------- |
-| `VITE_API_URL`       | External API URL         | `https://reqres.in/api/collections/users/records` |
-| `VITE_API_KEY`       | API key for external API | -                                                 |
-| `VITE_USE_MOCK_DATA` | Use local mock data      | `true`                                            |
+| Variable       | Description              | Default                                           |
+| -------------- | ------------------------ | ------------------------------------------------- |
+| `VITE_API_URL` | External API URL         | `https://reqres.in/api/collections/users/records` |
+| `VITE_API_KEY` | API key for external API | -                                                 |
 
-To use external API, set `VITE_USE_MOCK_DATA=false` in `.env`.
+To use external API, add `?mock=false` to the URL.
 
 ## Running Locally
 
