@@ -79,6 +79,11 @@
         "email": "Invalid email"
       }
     },
+    "toast": {
+      "createSuccess": "User created successfully",
+      "editSuccess": "User updated successfully",
+      "deleteSuccess": "User deleted successfully"
+    },
     "roles": {
       "Administrador": "Administrator",
       "Usuario": "User",

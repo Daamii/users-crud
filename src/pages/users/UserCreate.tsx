@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
+import { useToast } from "../../hooks/useToast";
 import { FiArrowLeft, FiSave } from "../../icons";
 import { useAppDispatch } from "../../store/hooks";
 import { createUser } from "../../store/usersSlice";
@@ -18,6 +19,7 @@ const UserCreate = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { showToast } = useToast();
   const { values, errors, handleChange, validateAll } = useForm(
     USER_FORM_INITIAL_VALUES,
     USER_FORM_VALIDATION_RULES,
@@ -37,6 +39,7 @@ const UserCreate = () => {
           avatar: avatar || undefined,
         } as import("../../types/user").UserFormData),
       );
+      showToast(t("users.toast.createSuccess"));
       navigate("/");
     }
   };

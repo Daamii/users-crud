@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import "../../components/Form.scss";
 import { useForm } from "../../hooks/useForm";
+import { useToast } from "../../hooks/useToast";
 import { FiArrowLeft, FiSave, FiTrash2 } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
@@ -23,6 +24,7 @@ const UserEdit = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { showToast } = useToast();
   const { selectedUser, loading, error } = useAppSelector(
     (state) => state.users,
   );
@@ -68,6 +70,7 @@ const UserEdit = () => {
           } as import("../../types/user").UserFormData,
         }),
       );
+      showToast(t("users.toast.editSuccess"));
       navigate("/");
     }
   };
@@ -75,6 +78,7 @@ const UserEdit = () => {
   const handleDelete = async () => {
     if (id && window.confirm(t("users.form.deleteConfirm"))) {
       await dispatch(deleteUser(id));
+      showToast(t("users.toast.deleteSuccess"));
       navigate("/");
     }
   };

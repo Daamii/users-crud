@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useToast } from "../../hooks/useToast";
 import { FiArrowLeft, FiEdit2, FiTrash2 } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
@@ -16,6 +17,7 @@ const UserDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { showToast } = useToast();
   const { selectedUser, loading, error } = useAppSelector(
     (state) => state.users,
   );
@@ -32,6 +34,7 @@ const UserDetail = () => {
   const handleDelete = async () => {
     if (id && window.confirm(t("users.form.deleteConfirm"))) {
       await dispatch(deleteUser(id));
+      showToast(t("users.toast.deleteSuccess"));
       navigate("/");
     }
   };
