@@ -82,24 +82,55 @@ export const api = {
 
     const page = params.page || 1;
     const limit = params.limit || 9;
+    const hasLocalFilter = !!params.search;
 
-    const url = new URL(API_URL);
-    url.searchParams.set("page", String(page));
-    url.searchParams.set("limit", String(limit));
+    let users: User[];
 
-    const response = await fetch(url.toString(), {
-      headers: { "x-api-key": API_KEY },
-    });
+    if (hasLocalFilter) {
+      const allUrl = new URL(API_URL);
+      allUrl.searchParams.set("page", "1");
+      allUrl.searchParams.set("limit", "500");
 
-    if (!response.ok) {
-      throw new Error("Error al cargar usuarios");
+      const response = await fetch(allUrl.toString(), {
+        headers: { "x-api-key": API_KEY },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al cargar usuarios");
+      }
+
+      const json: ApiResponse = await response.json();
+      users = json.data.map(mapApiUser);
+    } else {
+      const url = new URL(API_URL);
+      url.searchParams.set("page", String(page));
+      url.searchParams.set("limit", String(limit));
+
+      if (params.sort) {
+        url.searchParams.set("sort", params.sort);
+      }
+
+      if (params.role) {
+        url.searchParams.set(
+          "role",
+          reverseRoleMap[params.role] || params.role,
+        );
+      }
+
+      const response = await fetch(url.toString(), {
+        headers: { "x-api-key": API_KEY },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al cargar usuarios");
+      }
+
+      const json: ApiResponse = await response.json();
+      users = json.data.map(mapApiUser);
     }
 
-    const json: ApiResponse = await response.json();
-    const users = json.data.map(mapApiUser);
+    let filteredUsers = [...users];
 
-    // Filtros locales (reqres no soporta búsqueda/filtrado avanzado)
-    let filteredUsers = users;
     if (params.search) {
       const searchNormalized = removeAccents(params.search.toLowerCase());
       filteredUsers = filteredUsers.filter((u) => {
@@ -119,40 +150,44 @@ export const api = {
       });
     }
 
-    if (params.role) {
+    if (params.role && !hasLocalFilter) {
       filteredUsers = filteredUsers.filter((u) => u.role === params.role);
     }
 
-    // Ordenación local
-    if (params.sort) {
-      const [field, direction] = params.sort.split(':');
+    if (params.sort && !hasLocalFilter) {
+      const [field, direction] = params.sort.split(":");
       filteredUsers.sort((a, b) => {
-        let aVal = '';
-        let bVal = '';
-        
-        if (field === 'name') {
+        let aVal = "";
+        let bVal = "";
+
+        if (field === "name") {
           aVal = `${a.firstName} ${a.lastName}`.toLowerCase();
           bVal = `${b.firstName} ${b.lastName}`.toLowerCase();
-        } else if (field === 'email') {
+        } else if (field === "email") {
           aVal = a.email.toLowerCase();
           bVal = b.email.toLowerCase();
-        } else if (field === 'role') {
+        } else if (field === "role") {
           aVal = a.role.toLowerCase();
           bVal = b.role.toLowerCase();
         }
-        
-        if (direction === 'desc') {
+
+        if (direction === "desc") {
           return bVal.localeCompare(aVal);
         }
         return aVal.localeCompare(bVal);
       });
     }
 
+    const total = filteredUsers.length;
+    const totalPages = Math.ceil(total / limit);
+    const start = (page - 1) * limit;
+    const paginatedData = filteredUsers.slice(start, start + limit);
+
     return {
-      data: filteredUsers,
-      total: json.meta.total,
-      page: json.meta.page,
-      totalPages: json.meta.pages,
+      data: paginatedData,
+      total,
+      page,
+      totalPages,
     };
   },
 
