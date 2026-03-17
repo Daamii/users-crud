@@ -68,6 +68,11 @@
         "role": "Rol",
         "avatar": "Avatar"
       },
+      "placeholders": {
+        "firstName": "Ej: Juan",
+        "lastName": "Ej: García",
+        "email": "Ej: juan@email.com"
+      },
       "validation": {
         "required": "Este campo es obligatorio",
         "minLength": "Mínimo {{min}} caracteres",

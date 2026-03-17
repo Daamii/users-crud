@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { AvatarSelector } from "../../components/AvatarSelector";
 import { FormInput } from "../../components/FormInput";
 import { FormSelect } from "../../components/FormSelect";
+import { PhoneInput } from "../../components/PhoneInput";
 import { FormErrors } from "../../hooks/useForm";
 import { ROLES } from "./userConstants";
 
@@ -36,6 +37,7 @@ export function UserForm({
         onChange={handleChange}
         error={errors.firstName}
         required
+        placeholder={t("users.form.placeholders.firstName")}
       />
 
       <FormInput
@@ -45,6 +47,7 @@ export function UserForm({
         onChange={handleChange}
         error={errors.lastName}
         required
+        placeholder={t("users.form.placeholders.lastName")}
       />
 
       <FormInput
@@ -55,12 +58,12 @@ export function UserForm({
         onChange={handleChange}
         error={errors.email}
         required
+        placeholder={t("users.form.placeholders.email")}
       />
 
-      <FormInput
+      <PhoneInput
         label={t("users.form.fields.phone")}
         name="phone"
-        type="tel"
         value={values.phone}
         onChange={handleChange}
         error={errors.phone}

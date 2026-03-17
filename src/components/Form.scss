@@ -225,3 +225,41 @@
     }
   }
 }
+
+.phone-input {
+  display: flex;
+  gap: $spacing-sm;
+
+  &__prefix {
+    width: 120px;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: $border-radius-md;
+    font-size: $font-size-md;
+    color: var(--text-color);
+    background: var(--surface-color);
+    cursor: pointer;
+    transition: border-color $transition-normal;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+    }
+  }
+
+  &__number {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: $border-radius-md;
+    font-size: $font-size-lg;
+    color: var(--text-color);
+    background: var(--surface-color);
+    transition: border-color $transition-normal;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+    }
+  }
+}
