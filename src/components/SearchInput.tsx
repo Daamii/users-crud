@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
+import { DEBOUNCE_MS } from "../constants";
 
 interface SearchInputProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
 }
-const DEBOUNCE_MS = 300;
 
 export function SearchInput({
   value,

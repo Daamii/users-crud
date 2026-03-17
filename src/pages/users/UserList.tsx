@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useSearchFilter } from "../../components/SearchInput";
+import { PAGE_OPTIONS } from "../../constants";
 import { FaEdit, FiGrid, FiList } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
@@ -11,24 +12,39 @@ import {
   setPage,
   setSort,
 } from "../../store/usersSlice";
-import "./UserList.scss";
+import { isMobile } from "../../utils";
 
-const PAGE_OPTIONS = [9, 15, 30, 60, 90];
+import "./UserList.scss";
 
 const UserList = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { users, total, page, limit, totalPages, loading, error, filters, sort } =
-    useAppSelector((state) => state.users);
+  const {
+    users,
+    total,
+    page,
+    limit,
+    totalPages,
+    loading,
+    error,
+    filters,
+    sort,
+  } = useAppSelector((state) => state.users);
+
   const [pageInput, setPageInput] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "table">(() => {
+    if (isMobile()) return "grid";
     const saved = localStorage.getItem("viewMode");
-    return (saved === "grid" || saved === "table") ? saved : "grid";
+    return saved === "table" ? "table" : "grid";
   });
   const { searchInput, setSearchInput, debouncedSearch } = useSearchFilter();
 
   useEffect(() => {
-    localStorage.setItem("viewMode", viewMode);
+    if (!isMobile()) {
+      localStorage.setItem("viewMode", viewMode);
+    } else if (viewMode !== "grid") {
+      setViewMode("grid");
+    }
   }, [viewMode]);
 
   useEffect(() => {
@@ -37,7 +53,13 @@ const UserList = () => {
 
   useEffect(() => {
     dispatch(
-      fetchUsers({ page, limit, search: filters.search, role: filters.role, sort }),
+      fetchUsers({
+        page,
+        limit,
+        search: filters.search,
+        role: filters.role,
+        sort,
+      }),
     );
   }, [dispatch, page, limit, filters.search, filters.role, sort]);
 
@@ -133,7 +155,9 @@ const UserList = () => {
               <option value="name:asc">{t("users.list.sort.nameAsc")}</option>
               <option value="name:desc">{t("users.list.sort.nameDesc")}</option>
               <option value="email:asc">{t("users.list.sort.emailAsc")}</option>
-              <option value="email:desc">{t("users.list.sort.emailDesc")}</option>
+              <option value="email:desc">
+                {t("users.list.sort.emailDesc")}
+              </option>
               <option value="role:asc">{t("users.list.sort.roleAsc")}</option>
               <option value="role:desc">{t("users.list.sort.roleDesc")}</option>
             </select>
@@ -228,7 +252,12 @@ const UserList = () => {
                 </thead>
                 <tbody>
                   {users.map((user) => (
-                    <tr key={user.id} onClick={() => window.location.href = `/user/${user.id}`}>
+                    <tr
+                      key={user.id}
+                      onClick={() =>
+                        (window.location.href = `/user/${user.id}`)
+                      }
+                    >
                       <td>
                         <img
                           src={user.avatar}
@@ -236,7 +265,9 @@ const UserList = () => {
                           className="user-list__table-avatar"
                         />
                       </td>
-                      <td>{user.firstName} {user.lastName}</td>
+                      <td>
+                        {user.firstName} {user.lastName}
+                      </td>
                       <td>{user.email}</td>
                       <td>{user.phone}</td>
                       <td>

@@ -76,6 +76,10 @@
   &__view-toggle {
     display: flex;
     gap: $spacing-xs;
+
+    @media (max-width: $breakpoint-md) {
+      display: none;
+    }
   }
 
   &__sort {
