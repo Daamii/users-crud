@@ -19,6 +19,7 @@ export interface PaginatedResponse<T> {
   total: number;
   page: number;
   totalPages: number;
+  limit: number;
 }
 
 interface ApiResponse {
@@ -127,6 +128,14 @@ export const api = {
 
       const json: ApiResponse = await response.json();
       users = json.data.map(mapApiUser);
+
+      return {
+        data: users,
+        total: json.meta.total,
+        page: json.meta.page,
+        totalPages: json.meta.pages,
+        limit: json.meta.limit,
+      };
     }
 
     let filteredUsers = [...users];
@@ -188,6 +197,7 @@ export const api = {
       total,
       page,
       totalPages,
+      limit,
     };
   },
 

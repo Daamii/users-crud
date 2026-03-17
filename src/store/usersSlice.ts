@@ -111,6 +111,7 @@ const usersSlice = createSlice({
         state.total = action.payload.total;
         state.page = action.payload.page;
         state.totalPages = action.payload.totalPages;
+        state.limit = action.payload.limit;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
