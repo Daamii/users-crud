@@ -1,139 +1,131 @@
 # Users CRUD
 
-User management application built with React, TypeScript, Vite, Redux Toolkit, and i18next.
+> User management application built with React, TypeScript, Vite, Redux Toolkit, and i18next
 
-## Features
+[![GitHub Pages](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](https://daamii.github.io/users-crud)
+[![React](https://img.shields.io/badge/React-18.2-blue?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+
+## 🌐 Live Demo
+
+**Production:** https://daamii.github.io/users-crud
+
+> ⚠️ If the external API doesn't work, use mock data: https://daamii.github.io/users-crud/?mock=true
+
+---
+
+## ✨ Features
 
 ### User Management
 
-- User listing with pagination, filtering, sorting, and search
-- User creation, editing, and deletion
-- Avatar selection using pravatar.cc API
+- 📋 User listing with **pagination**, **filtering**, **sorting**, and **search**
+- ➕ Create, ✏️ edit, and 🗑️ delete users
+- 🖼️ Avatar selection using pravatar.cc API
 
-### Visualización
+### Views
 
-- Grid view with user cards
-- Table view with fixed headers
-- Scrollable content with blur effect
-- Mobile-responsive design (forces grid on mobile)
+- 🃏 Grid view with user cards
+- 📊 Table view with fixed headers
+- 🎨 Scrollable content with blur effect
+- 📱 Mobile-responsive design
 
 ### Filtering & Sorting
 
-- Search by name or email (with debounce)
-- Filter by role (Administrador, Usuario, Editor, Moderador)
-- Sort by name, email, or role (ascending/descending)
+- 🔍 Search by name or email (with debounce)
+- 🎭 Filter by role
+- ↕️ Sort by name, email, or role
 
-### Personalización
+### Customization
 
-- Light/Dark theme toggle (persisted in localStorage)
-- Multi-language support (Spanish/English)
-- Grid/Table view toggle (persisted in localStorage)
+- 🌓 Light/Dark theme toggle
+- 🌎 Multi-language support (Spanish/English)
+- 🎨 Grid/Table view toggle
 
 ### UX
 
-- Toast notifications for CRUD operations
-- Phone input with country prefix selector
-- Loading states
-- Error handling
-- Lazy loading for detail/edit/create pages
+- 🍞 Toast notifications
+- 📞 Phone input with country prefix
+- ⏳ Loading states
+- ⚠️ Error handling
 
-### Technical
+---
 
-- Mock data (75 users) or external API support
-- UUID-based user IDs
-- Redux Toolkit for state management
-- TypeScript with strict typing
-- Vitest for testing
-
-## Requirements
-
-| Tool       | Version |
-| ---------- | ------- |
-| Node.js    | 18+     |
-| npm        | 9+      |
-| React      | 18.2+   |
-| TypeScript | 5.2+    |
-| Vite       | 5.1+    |
-
-## Installation
-
-1. Clone the repository
-2. Install dependencies:
+## 🚀 Quick Start
 
 ```bash
+# Install
 npm install
-```
 
-## Configuration
-
-Copy the environment file and configure as needed:
-
-```bash
-cp .env.example .env
-```
-
-### Environment Variables
-
-| Variable       | Description              | Default                                           |
-| -------------- | ------------------------ | ------------------------------------------------- |
-| `VITE_API_URL` | External API URL         | `https://reqres.in/api/collections/users/records` |
-| `VITE_API_KEY` | API key for external API | -                                                 |
-
-To use external API, add `?mock=false` to the URL.
-
-## Running Locally
-
-### Development
-
-```bash
+# Development
 npm run dev
 ```
 
-### Production Build
+---
 
-```bash
-npm run build
+## 📖 Usage
+
+### Default (External API)
+
+```
+https://daamii.github.io/users-crud/
 ```
 
-### Preview Production Build
+### Mock Data (Fallback)
 
-```bash
-npm run preview
+```
+https://daamii.github.io/users-crud/?mock=true
 ```
 
-## Available Scripts
+---
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run lint` - Run ESLint
-- `npm run preview` - Preview production build
-- `npm run test` - Run tests in watch mode
-- `npm run test:run` - Run tests once
+## 🛠️ Tech Stack
 
-## Project Structure
+<div align="center">
+
+| Technology    | Badge                                                                                                    |
+| ------------- | -------------------------------------------------------------------------------------------------------- |
+| React         | ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)               |
+| TypeScript    | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) |
+| Vite          | ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)                   |
+| Redux Toolkit | ![Redux](https://img.shields.io/badge/Redux-764ABC?style=flat&logo=redux&logoColor=white)                |
+| i18next       | ![i18next](https://img.shields.io/badge/i18next-26A69A?style=flat&logo=i18next&logoColor=white)          |
+
+</div>
+
+---
+
+## 📁 Project Structure
 
 ```
 src/
-├── components/       # Reusable UI components
-├── context/          # React contexts
-├── data/             # Mock data (JSON)
-├── hooks/           # Custom React hooks
-├── icons/           # Icon components
-├── locales/         # i18n translations
-├── pages/           # Page components
-├── services/        # API services
-├── store/           # Redux store
-├── styles/          # Global styles
-├── types/           # TypeScript types
+├── components/     # Reusable UI components
+├── data/           # Mock data
+├── hooks/          # Custom React hooks
+├── icons/          # Icon components
+├── locales/        # i18n translations
+├── pages/          # Page components
+├── services/       # API services
+├── store/          # Redux store
+├── styles/         # Global styles
+├── test/           # Test files
+├── types/          # TypeScript types
 └── utils/          # Utility functions
 ```
 
-## Tech Stack
+---
 
-- React 18
-- TypeScript
-- Vite
-- Redux Toolkit
-- React Router DOM
-- i18next
-- SCSS
+## 📋 Available Scripts
+
+| Command            | Description              |
+| ------------------ | ------------------------ |
+| `npm run dev`      | Start development server |
+| `npm run build`    | Build for production     |
+| `npm run preview`  | Preview production build |
+| `npm run test`     | Run tests (watch mode)   |
+| `npm run test:run` | Run tests once           |
+
+---
+
+## 📄 License
+
+MIT
