@@ -43,6 +43,7 @@ User management application built with React, TypeScript, Vite, Redux Toolkit, a
 - UUID-based user IDs
 - Redux Toolkit for state management
 - TypeScript with strict typing
+- Vitest for testing
 
 ## Requirements
 
@@ -107,6 +108,8 @@ npm run preview
 - `npm run build` - Build for production
 - `npm run lint` - Run ESLint
 - `npm run preview` - Preview production build
+- `npm run test` - Run tests in watch mode
+- `npm run test:run` - Run tests once
 
 ## Project Structure
 
