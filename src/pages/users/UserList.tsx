@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { MOBILE_BREAKPOINT, PAGE_OPTIONS } from "../../constants";
+import { isMobile } from "../../utils";
 import { useSearchFilter } from "../../components/SearchInput";
-import { PAGE_OPTIONS } from "../../constants";
 import { FaEdit, FiGrid, FiList } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
@@ -12,8 +13,6 @@ import {
   setPage,
   setSort,
 } from "../../store/usersSlice";
-import { isMobile } from "../../utils";
-
 import "./UserList.scss";
 
 const UserList = () => {
@@ -33,14 +32,14 @@ const UserList = () => {
 
   const [pageInput, setPageInput] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "table">(() => {
-    if (isMobile()) return "grid";
+    if (isMobile(MOBILE_BREAKPOINT)) return "grid";
     const saved = localStorage.getItem("viewMode");
     return saved === "table" ? "table" : "grid";
   });
   const { searchInput, setSearchInput, debouncedSearch } = useSearchFilter();
 
   useEffect(() => {
-    if (!isMobile()) {
+    if (!isMobile(MOBILE_BREAKPOINT)) {
       localStorage.setItem("viewMode", viewMode);
     } else if (viewMode !== "grid") {
       setViewMode("grid");
@@ -63,34 +62,34 @@ const UserList = () => {
     );
   }, [dispatch, page, limit, filters.search, filters.role, sort]);
 
-  const handleRoleChange = (role: string) => {
+  const handleRoleChange = useCallback((role: string) => {
     dispatch(setFilters({ role }));
-  };
+  }, [dispatch]);
 
-  const handlePageChange = (newPage: number) => {
+  const handlePageChange = useCallback((newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
       dispatch(setPage(newPage));
     }
-  };
+  }, [dispatch, totalPages]);
 
-  const handlePageInputSubmit = (e: React.FormEvent) => {
+  const handlePageInputSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     const newPage = parseInt(pageInput, 10);
     if (!isNaN(newPage)) {
       handlePageChange(newPage);
     }
     setPageInput("");
-  };
+  }, [pageInput, handlePageChange]);
 
-  const handleLimitChange = (newLimit: number) => {
+  const handleLimitChange = useCallback((newLimit: number) => {
     dispatch(setLimit({ limit: newLimit }));
-  };
+  }, [dispatch]);
 
-  const handleSortChange = (newSort: string) => {
+  const handleSortChange = useCallback((newSort: string) => {
     dispatch(setSort(newSort));
-  };
+  }, [dispatch]);
 
-  const getPageNumbers = () => {
+  const getPageNumbers = useMemo(() => {
     const pages: (number | string)[] = [];
     const maxVisible = 5;
 
@@ -112,7 +111,7 @@ const UserList = () => {
     }
 
     return pages;
-  };
+  }, [page, totalPages]);
 
   return (
     <div className="user-list">
@@ -328,7 +327,7 @@ const UserList = () => {
                   {"<"}
                 </button>
 
-                {getPageNumbers().map((p, idx) =>
+                {getPageNumbers.map((p, idx) =>
                   typeof p === "number" ? (
                     <button
                       key={idx}
