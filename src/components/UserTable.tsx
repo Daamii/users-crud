@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { FaEdit } from "../icons";
+import { EditIconSquared } from "../icons";
 import { User } from "../types/user";
 import { KeepSearchParamsLink } from "./KeepSearchParamsLink";
 
@@ -62,7 +62,7 @@ export const UserTable = ({ users }: UserTableProps) => {
                 className="user-list__table-edit"
                 title={t("users.detail.edit")}
               >
-                <FaEdit size={16} />
+                <EditIconSquared size={16} />
               </KeepSearchParamsLink>
             </td>
           </tr>

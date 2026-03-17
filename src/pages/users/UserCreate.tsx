@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { KeepSearchParamsLink } from "../../components/KeepSearchParamsLink";
 import { useForm } from "../../hooks/useForm";
 import { useToast } from "../../hooks/useToast";
-import { FiArrowLeft, FiSave } from "../../icons";
+import { ArrowLeftIcon, SaveIcon } from "../../icons";
 import { useAppDispatch } from "../../store/hooks";
 import { createUser } from "../../store/usersSlice";
 import {
@@ -50,7 +50,7 @@ const UserCreate = () => {
     <div className="user-form">
       <div className="user-form__header">
         <KeepSearchParamsLink to="/" className="user-form__back">
-          <FiArrowLeft size={18} /> {t("users.form.cancel")}
+          <ArrowLeftIcon size={18} /> {t("users.form.cancel")}
         </KeepSearchParamsLink>
         <h1 className="user-form__title">{t("users.form.create")}</h1>
       </div>
@@ -68,7 +68,7 @@ const UserCreate = () => {
               type="submit"
               className="form-btn form-btn--primary form-btn--full"
             >
-              <FiSave size={18} /> {t("users.form.create")}
+              <SaveIcon size={18} /> {t("users.form.create")}
             </button>
           </div>
         </UserForm>

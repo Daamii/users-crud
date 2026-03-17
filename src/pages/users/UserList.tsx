@@ -4,7 +4,7 @@ import { Pagination } from "../../components/Pagination";
 import { useSearchFilter } from "../../components/SearchInput";
 import { UserTable } from "../../components/UserTable";
 import { UsersGrid } from "../../components/UsersGrid";
-import { FiGrid, FiList } from "../../icons";
+import { GridIcon, ListIcon } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   fetchUsers,
@@ -155,14 +155,14 @@ const UserList = () => {
               onClick={() => setViewMode("grid")}
               title="Grid view"
             >
-              <FiGrid />
+              <GridIcon />
             </button>
             <button
               className={`user-list__view-btn ${viewMode === "table" ? "user-list__view-btn--active" : ""}`}
               onClick={() => setViewMode("table")}
               title="Table view"
             >
-              <FiList />
+              <ListIcon />
             </button>
           </div>
 

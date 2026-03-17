@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { FaEdit } from "../icons";
+import { EditIconSquared } from "../icons";
 import { User } from "../types/user";
 import { KeepSearchParamsLink } from "./KeepSearchParamsLink";
 import "./UserCard.scss";
@@ -37,7 +37,7 @@ export const UserCard = ({ user }: UserCardProps) => {
         className="user-card__edit"
         title={t("users.detail.edit")}
       >
-        <FaEdit size={18} />
+        <EditIconSquared size={18} />
       </KeepSearchParamsLink>
     </div>
   );

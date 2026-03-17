@@ -5,7 +5,7 @@ import "../../components/Form.scss";
 import { KeepSearchParamsLink } from "../../components/KeepSearchParamsLink";
 import { useForm } from "../../hooks/useForm";
 import { useToast } from "../../hooks/useToast";
-import { FiArrowLeft, FiSave, FiTrash2 } from "../../icons";
+import { ArrowLeftIcon, SaveIcon, TrashIcon } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   clearSelectedUser,
@@ -95,7 +95,7 @@ const UserEdit = () => {
     <div className="user-form">
       <div className="user-form__header">
         <KeepSearchParamsLink to="/" className="user-form__back">
-          <FiArrowLeft size={18} /> {t("users.detail.back")}
+          <ArrowLeftIcon size={18} /> {t("users.detail.back")}
         </KeepSearchParamsLink>
         <h1 className="user-form__title">{t("users.form.edit")}</h1>
       </div>
@@ -115,14 +115,14 @@ const UserEdit = () => {
               onClick={handleDelete}
               disabled={loading}
             >
-              <FiTrash2 size={18} /> {t("users.form.delete")}
+              <TrashIcon size={18} /> {t("users.form.delete")}
             </button>
             <button
               type="submit"
               className="form-btn form-btn--primary"
               disabled={loading}
             >
-              <FiSave size={18} />{" "}
+              <SaveIcon size={18} />{" "}
               {loading ? t("users.form.saving") : t("users.form.save")}
             </button>
           </div>

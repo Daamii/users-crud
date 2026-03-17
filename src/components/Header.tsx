@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { FiPlus } from "../icons";
+import { PlusIcon } from "../icons";
 import "./Header.scss";
 import { KeepSearchParamsLink } from "./KeepSearchParamsLink";
 import { LanguageSelector } from "./LanguageSelector";
@@ -26,7 +26,7 @@ export function Header({
               to="/create"
               className="app-header__create-btn"
             >
-              <FiPlus size={18} /> {t("users.list.create")}
+              <PlusIcon size={18} /> {t("users.list.create")}
             </KeepSearchParamsLink>
           )}
         </div>

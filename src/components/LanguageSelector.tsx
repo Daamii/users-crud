@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { FiGlobe } from "../icons";
+import { GlobeIcon } from "../icons";
 import "./LanguageSelector.scss";
 
 const languages = [
@@ -17,7 +17,7 @@ export function LanguageSelector() {
 
   return (
     <div className="language-selector">
-      <FiGlobe size={18} />
+      <GlobeIcon size={18} />
       <div className="language-selector__flags">
         {languages.map((lang) => (
           <button

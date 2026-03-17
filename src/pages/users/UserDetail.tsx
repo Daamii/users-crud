@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { KeepSearchParamsLink } from "../../components/KeepSearchParamsLink";
 import { useToast } from "../../hooks/useToast";
-import { FiArrowLeft, FiEdit2, FiTrash2 } from "../../icons";
+import { ArrowLeftIcon, EditIcon, TrashIcon } from "../../icons";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   clearSelectedUser,
@@ -52,7 +52,7 @@ const UserDetail = () => {
     <div className="user-detail">
       <div className="user-detail__header">
         <KeepSearchParamsLink to="/" className="user-detail__back">
-          <FiArrowLeft size={18} /> {t("users.detail.back")}
+          <ArrowLeftIcon size={18} /> {t("users.detail.back")}
         </KeepSearchParamsLink>
         <div className="user-detail__actions">
           <button
@@ -60,13 +60,13 @@ const UserDetail = () => {
             className="user-detail__delete"
             disabled={loading}
           >
-            <FiTrash2 size={18} /> {t("users.detail.delete")}
+            <TrashIcon size={18} /> {t("users.detail.delete")}
           </button>
           <KeepSearchParamsLink
             to={`/user/${id}/edit`}
             className="user-detail__edit"
           >
-            <FiEdit2 size={18} /> {t("users.detail.edit")}
+            <EditIcon size={18} /> {t("users.detail.edit")}
           </KeepSearchParamsLink>
         </div>
       </div>
