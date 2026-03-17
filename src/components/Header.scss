@@ -59,6 +59,7 @@
     font-weight: 600;
     transition: background $transition-normal;
     text-decoration: none;
+    height: 40px;
 
     &:hover {
       background: $color-success-dark;
