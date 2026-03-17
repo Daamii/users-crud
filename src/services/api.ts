@@ -11,6 +11,7 @@ export interface FetchUsersParams {
   limit?: number;
   search?: string;
   role?: string;
+  sort?: string;
 }
 
 export interface PaginatedResponse<T> {
@@ -79,10 +80,12 @@ export const api = {
   ): Promise<PaginatedResponse<User>> => {
     await delay(300);
 
-    // Obtener todos los datos para filtrar localmente
+    const page = params.page || 1;
+    const limit = params.limit || 9;
+
     const url = new URL(API_URL);
-    url.searchParams.set("page", "1");
-    url.searchParams.set("limit", "100"); // Obtener suficientes datos
+    url.searchParams.set("page", String(page));
+    url.searchParams.set("limit", String(limit));
 
     const response = await fetch(url.toString(), {
       headers: { "x-api-key": API_KEY },
@@ -93,12 +96,13 @@ export const api = {
     }
 
     const json: ApiResponse = await response.json();
-    let users = json.data.map(mapApiUser);
+    const users = json.data.map(mapApiUser);
 
-    // Aplicar filtros localmente
+    // Filtros locales (reqres no soporta búsqueda/filtrado avanzado)
+    let filteredUsers = users;
     if (params.search) {
       const searchNormalized = removeAccents(params.search.toLowerCase());
-      users = users.filter((u) => {
+      filteredUsers = filteredUsers.filter((u) => {
         const fullName = removeAccents(
           `${u.firstName} ${u.lastName}`.toLowerCase(),
         );
@@ -116,21 +120,39 @@ export const api = {
     }
 
     if (params.role) {
-      users = users.filter((u) => u.role === params.role);
+      filteredUsers = filteredUsers.filter((u) => u.role === params.role);
     }
 
-    // Paginación local
-    const page = params.page || 1;
-    const limit = params.limit || 10;
-    const start = (page - 1) * limit;
-    const end = start + limit;
-    const paginatedData = users.slice(start, end);
+    // Ordenación local
+    if (params.sort) {
+      const [field, direction] = params.sort.split(':');
+      filteredUsers.sort((a, b) => {
+        let aVal = '';
+        let bVal = '';
+        
+        if (field === 'name') {
+          aVal = `${a.firstName} ${a.lastName}`.toLowerCase();
+          bVal = `${b.firstName} ${b.lastName}`.toLowerCase();
+        } else if (field === 'email') {
+          aVal = a.email.toLowerCase();
+          bVal = b.email.toLowerCase();
+        } else if (field === 'role') {
+          aVal = a.role.toLowerCase();
+          bVal = b.role.toLowerCase();
+        }
+        
+        if (direction === 'desc') {
+          return bVal.localeCompare(aVal);
+        }
+        return aVal.localeCompare(bVal);
+      });
+    }
 
     return {
-      data: paginatedData,
-      total: users.length,
-      page,
-      totalPages: Math.ceil(users.length / limit),
+      data: filteredUsers,
+      total: json.meta.total,
+      page: json.meta.page,
+      totalPages: json.meta.pages,
     };
   },
 

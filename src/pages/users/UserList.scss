@@ -78,6 +78,33 @@
     gap: $spacing-xs;
   }
 
+  &__sort {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  &__sort-select {
+    padding: $spacing-sm $spacing-md;
+    background: var(--surface-color);
+    border: 2px solid var(--border-color);
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    font-size: $font-size-md;
+    color: var(--text-color);
+    transition: all $transition-normal;
+    min-width: 140px;
+
+    &:hover {
+      border-color: $color-primary;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+    }
+  }
+
   &__view-btn {
     padding: $spacing-sm;
     background: var(--surface-color);

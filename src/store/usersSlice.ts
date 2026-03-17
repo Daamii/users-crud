@@ -15,6 +15,7 @@ interface UsersState {
     search: string;
     role: string;
   };
+  sort: string;
 }
 
 const initialState: UsersState = {
@@ -29,7 +30,8 @@ const initialState: UsersState = {
   filters: {
     search: '',
     role: ''
-  }
+  },
+  sort: ''
 };
 
 export const fetchUsers = createAsyncThunk(
@@ -80,10 +82,14 @@ const usersSlice = createSlice({
     setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
     },
-    setLimit: (state, action: PayloadAction<number>) => {
-      state.limit = action.payload;
+    setLimit: (state, action: PayloadAction<{ limit: number }>) => {
+      state.limit = action.payload.limit;
       state.page = 1;
-    }
+    },
+    setSort: (state, action: PayloadAction<string>) => {
+      state.sort = action.payload;
+      state.page = 1;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -160,5 +166,5 @@ const usersSlice = createSlice({
   }
 });
 
-export const { clearSelectedUser, setFilters, setPage, setLimit } = usersSlice.actions;
+export const { clearSelectedUser, setFilters, setPage, setLimit, setSort } = usersSlice.actions;
 export default usersSlice.reducer;

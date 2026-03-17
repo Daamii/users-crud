@@ -9,6 +9,7 @@ import {
   setFilters,
   setLimit,
   setPage,
+  setSort,
 } from "../../store/usersSlice";
 import "./UserList.scss";
 
@@ -17,7 +18,7 @@ const PAGE_OPTIONS = [9, 15, 30, 60, 90];
 const UserList = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { users, total, page, limit, totalPages, loading, error, filters } =
+  const { users, total, page, limit, totalPages, loading, error, filters, sort } =
     useAppSelector((state) => state.users);
   const [pageInput, setPageInput] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "table">(() => {
@@ -36,9 +37,9 @@ const UserList = () => {
 
   useEffect(() => {
     dispatch(
-      fetchUsers({ page, limit, search: filters.search, role: filters.role }),
+      fetchUsers({ page, limit, search: filters.search, role: filters.role, sort }),
     );
-  }, [dispatch, page, limit, filters.search, filters.role]);
+  }, [dispatch, page, limit, filters.search, filters.role, sort]);
 
   const handleRoleChange = (role: string) => {
     dispatch(setFilters({ role }));
@@ -60,7 +61,11 @@ const UserList = () => {
   };
 
   const handleLimitChange = (newLimit: number) => {
-    dispatch(setLimit(newLimit));
+    dispatch(setLimit({ limit: newLimit }));
+  };
+
+  const handleSortChange = (newSort: string) => {
+    dispatch(setSort(newSort));
   };
 
   const getPageNumbers = () => {
@@ -116,6 +121,22 @@ const UserList = () => {
             >
               <FiList />
             </button>
+          </div>
+
+          <div className="user-list__sort">
+            <select
+              value={sort}
+              onChange={(e) => handleSortChange(e.target.value)}
+              className="user-list__sort-select"
+            >
+              <option value="">{t("users.list.sort.default")}</option>
+              <option value="name:asc">{t("users.list.sort.nameAsc")}</option>
+              <option value="name:desc">{t("users.list.sort.nameDesc")}</option>
+              <option value="email:asc">{t("users.list.sort.emailAsc")}</option>
+              <option value="email:desc">{t("users.list.sort.emailDesc")}</option>
+              <option value="role:asc">{t("users.list.sort.roleAsc")}</option>
+              <option value="role:desc">{t("users.list.sort.roleDesc")}</option>
+            </select>
           </div>
         </div>
 

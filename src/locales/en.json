@@ -17,6 +17,15 @@
         "editor": "Editor",
         "moderador": "Moderator"
       },
+      "sort": {
+        "default": "Sort by...",
+        "nameAsc": "Name A-Z",
+        "nameDesc": "Name Z-A",
+        "emailAsc": "Email A-Z",
+        "emailDesc": "Email Z-A",
+        "roleAsc": "Role A-Z",
+        "roleDesc": "Role Z-A"
+      },
       "table": {
         "avatar": "Avatar",
         "name": "Name",
