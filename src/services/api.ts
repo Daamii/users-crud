@@ -83,7 +83,7 @@ export const api = {
 
     const page = params.page || 1;
     const limit = params.limit || 9;
-    const hasLocalFilter = !!params.search;
+    const hasLocalFilter = !!params.search || !!params.role || !!params.sort;
 
     let users: User[];
 
@@ -106,17 +106,6 @@ export const api = {
       const url = new URL(API_URL);
       url.searchParams.set("page", String(page));
       url.searchParams.set("limit", String(limit));
-
-      if (params.sort) {
-        url.searchParams.set("sort", params.sort);
-      }
-
-      if (params.role) {
-        url.searchParams.set(
-          "role",
-          reverseRoleMap[params.role] || params.role,
-        );
-      }
 
       const response = await fetch(url.toString(), {
         headers: { "x-api-key": API_KEY },
@@ -159,11 +148,11 @@ export const api = {
       });
     }
 
-    if (params.role && !hasLocalFilter) {
+    if (params.role) {
       filteredUsers = filteredUsers.filter((u) => u.role === params.role);
     }
 
-    if (params.sort && !hasLocalFilter) {
+    if (params.sort) {
       const [field, direction] = params.sort.split(":");
       filteredUsers.sort((a, b) => {
         let aVal = "";
