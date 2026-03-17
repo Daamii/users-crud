@@ -3,11 +3,10 @@
 .user-list {
   max-width: $breakpoint-xl;
   margin: 0 auto;
-  padding: $spacing-md $spacing-md 0 $spacing-md;
+  padding: $spacing-md $spacing-md 0;
   display: flex;
   flex-direction: column;
   height: calc(100vh - 80px);
-  justify-content: space-around;
 
   &__filters {
     margin-bottom: $spacing-md;
@@ -150,11 +149,6 @@
     &--overflow-bottom {
       -webkit-mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%);
       mask-image: linear-gradient(to bottom, black 0%, black 90%, transparent 100%);
-    }
-
-    table {
-        transparent 100%
-      );
     }
 
     table {
