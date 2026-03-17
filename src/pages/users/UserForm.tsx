@@ -52,18 +52,27 @@ export function UserForm({
         />
       </div>
 
-      <div className="form-row">
-        <FormInput
-          label={t("users.form.fields.email")}
-          name="email"
-          type="email"
-          value={values.email}
-          onChange={handleChange}
-          error={errors.email}
-          required
-          placeholder={t("users.form.placeholders.email")}
-        />
+      <FormInput
+        label={t("users.form.fields.email")}
+        name="email"
+        type="email"
+        value={values.email}
+        onChange={handleChange}
+        error={errors.email}
+        required
+        placeholder={t("users.form.placeholders.email")}
+      />
 
+      <div className="form-row">
+        <FormSelect
+          label={t("users.form.fields.role")}
+          name="role"
+          value={values.role}
+          onChange={handleChange}
+          options={ROLES}
+          error={errors.role}
+          required
+        />
         <PhoneInput
           label={t("users.form.fields.phone")}
           name="phone"
@@ -73,16 +82,6 @@ export function UserForm({
           required
         />
       </div>
-
-      <FormSelect
-        label={t("users.form.fields.role")}
-        name="role"
-        value={values.role}
-        onChange={handleChange}
-        options={ROLES}
-        error={errors.role}
-        required
-      />
 
       <AvatarSelector
         label={t("users.form.fields.avatar")}
