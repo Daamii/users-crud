@@ -97,7 +97,7 @@ export const api = {
       });
 
       if (!response.ok) {
-        throw new Error("Error al cargar usuarios");
+        throw new Error("Error loading users");
       }
 
       const json: ApiResponse = await response.json();
@@ -112,7 +112,7 @@ export const api = {
       });
 
       if (!response.ok) {
-        throw new Error("Error al cargar usuarios");
+        throw new Error("Error loading users");
       }
 
       const json: ApiResponse = await response.json();
@@ -200,7 +200,7 @@ export const api = {
     });
 
     if (!response.ok) {
-      throw new Error("Error al cargar usuario");
+      throw new Error("Error loading user");
     }
 
     const json: ApiResponse = await response.json();
@@ -236,7 +236,7 @@ export const api = {
     });
 
     if (!response.ok) {
-      throw new Error("Error al actualizar usuario");
+      throw new Error("Error updating user");
     }
 
     const json = await response.json();
@@ -267,7 +267,7 @@ export const api = {
     });
 
     if (!response.ok) {
-      throw new Error("Error al crear usuario");
+      throw new Error("Error creating user");
     }
 
     const json = await response.json();
@@ -285,7 +285,7 @@ export const api = {
     });
 
     if (!response.ok) {
-      throw new Error("Error al eliminar usuario");
+      throw new Error("Error deleting user");
     }
   },
 };

@@ -115,7 +115,7 @@ const usersSlice = createSlice({
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Error al cargar usuarios";
+        state.error = action.error.message || "Error loading users";
       })
       .addCase(fetchUserById.pending, (state) => {
         state.loading = true;
@@ -127,7 +127,7 @@ const usersSlice = createSlice({
       })
       .addCase(fetchUserById.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Error al cargar usuario";
+        state.error = action.error.message || "Error loading user";
       })
       .addCase(updateUser.pending, (state) => {
         state.loading = true;
@@ -143,7 +143,7 @@ const usersSlice = createSlice({
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Error al actualizar usuario";
+        state.error = action.error.message || "Error updating user";
       })
       .addCase(createUser.pending, (state) => {
         state.loading = true;
@@ -156,7 +156,7 @@ const usersSlice = createSlice({
       })
       .addCase(createUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Error al crear usuario";
+        state.error = action.error.message || "Error creating user";
       })
       .addCase(deleteUser.pending, (state) => {
         state.loading = true;
@@ -170,7 +170,7 @@ const usersSlice = createSlice({
       })
       .addCase(deleteUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Error al eliminar usuario";
+        state.error = action.error.message || "Error deleting user";
       });
   },
 });

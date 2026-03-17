@@ -1,4 +1,4 @@
-import { MOBILE_BREAKPOINT } from "../constants";
+import { MAX_PRAVATAR_IMAGES, MOBILE_BREAKPOINT } from "../constants";
 
 export const removeAccents = (str: string): string =>
   str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -22,8 +22,6 @@ const shuffleArray = <T>(array: T[]): T[] => {
   }
   return shuffled;
 };
-
-const MAX_PRAVATAR_IMAGES = 70;
 
 export const generateRandomAvatars = (count: number = 12): string[] => {
   const indices = Array.from({ length: MAX_PRAVATAR_IMAGES }, (_, i) => i + 1);
